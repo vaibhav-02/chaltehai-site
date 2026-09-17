@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Chalte Hai — …but where?</title>
+    <meta name="description" content="Every great story starts with two words. Something is coming to chaltehai.online." />
+    <meta name="theme-color" content="#0b0a10" />
+    <link rel="canonical" href="https://chaltehai.online/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://chaltehai.online/" />
+    <meta property="og:title" content="Chalte Hai — …but where?" />
+    <meta property="og:description" content="Every great story starts with two words. Something is coming." />
+    <meta name="twitter:card" content="summary" />
+
+    <link
+        rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0a10'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff914d'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='%23ff914d' stroke-opacity='.5' stroke-width='2'/%3E%3C/svg%3E"
+    />
+
+    <style>
+        :root {
+            --ink: #0b0a10;
+            --paper: #fff4e6;
+            --muted: rgba(255, 244, 230, 0.58);
+            --faint: rgba(255, 244, 230, 0.14);
+            --saffron: #ff914d;
+            --marigold: #ffc857;
+            --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+            --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            --mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+            color-scheme: dark;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; background: var(--ink); }
+        [hidden] { display: none !important; }
+
+        .stage {
+            position: relative;
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            color: var(--paper);
+            font-family: var(--sans);
+            background:
+                radial-gradient(ellipse 80% 55% at 50% 115%, rgba(255, 120, 50, 0.28), transparent 70%),
+                radial-gradient(ellipse 60% 40% at 85% -10%, rgba(120, 80, 255, 0.16), transparent 70%),
+                var(--ink);
+        }
+
+        /* ---------- atmosphere ---------- */
+        .sky { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+        .vignette {
+            position: absolute; inset: 0; pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.65) 100%);
+        }
+        .grain {
+            position: absolute; inset: -50%; pointer-events: none; opacity: 0.06;
+            background-image: repeating-radial-gradient(circle at 17% 32%, #fff 0 1px, transparent 1px 3px);
+            animation: grain 1.2s steps(6) infinite;
+        }
+        @keyframes grain {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-3%, 2%); }
+            50% { transform: translate(2%, -3%); }
+            75% { transform: translate(-2%, -1%); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* ---------- chrome ---------- */
+        .topbar, .footer {
+            position: relative; z-index: 2;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+            padding: calc(1.5rem + env(safe-area-inset-top, 0px)) clamp(1rem, 4vw, 3rem) 1.5rem;
+            font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--muted);
+        }
+        .footer {
+            font-size: 0.68rem;
+            padding: 1.5rem clamp(1rem, 4vw, 3rem) calc(1.5rem + env(safe-area-inset-bottom, 0px));
+        }
+        .mark { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--paper); }
+        .pulse-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: var(--saffron);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 145, 77, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(255, 145, 77, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 145, 77, 0); }
+        }
+        .whisper { opacity: 0.45; transition: opacity 0.3s; }
+        .whisper:hover { opacity: 1; }
+        .whisper em { font-style: normal; color: var(--marigold); }
+
+        /* ---------- hero ---------- */
+        .content {
+            position: relative; z-index: 2; flex: 1;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center;
+            padding: 2rem clamp(1rem, 5vw, 3rem);
+        }
+        .eyebrow {
+            margin: 0 0 1.5rem;
+            font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.35em; text-transform: uppercase;
+            color: var(--saffron);
+            animation: rise 1s ease-out both;
+        }
+        .title {
+            margin: 0;
+            font-family: var(--mono); font-weight: 700;
+            font-size: clamp(2.6rem, 11vw, 8.5rem); line-height: 0.95; letter-spacing: 0.06em;
+            white-space: nowrap;
+            background: linear-gradient(180deg, #fffaf2 30%, #ffb27a 100%);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            text-shadow: 0 0 60px rgba(255, 145, 77, 0.25);
+        }
+        .question {
+            margin: 0.6rem 0 2.2rem;
+            font-family: var(--serif); font-style: italic; font-size: clamp(1.4rem, 3.4vw, 2.3rem);
+            color: var(--marigold);
+            animation: rise 1s 0.9s ease-out both;
+        }
+        .teaser {
+            min-height: 3.2em; max-width: 38rem; margin: 0 0 2.5rem;
+            font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.6;
+        }
+        .caret {
+            display: inline-block; width: 2px; height: 1.1em; margin-left: 3px; vertical-align: -0.15em;
+            background: var(--saffron);
+            animation: blink 1s steps(1) infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---------- countdown ---------- */
+        .countdown {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: clamp(0.75rem, 3vw, 2rem); margin-bottom: 3rem;
+        }
+        .unit {
+            display: flex; flex-direction: column; align-items: center;
+            min-width: 4.5rem; padding: 0.9rem 0.6rem;
+            border: 1px solid var(--faint); border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(6px);
+        }
+        .unit-value { font-family: var(--mono); font-size: clamp(1.6rem, 4vw, 2.4rem); font-variant-numeric: tabular-nums; }
+        .unit-label { margin-top: 0.3rem; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+
+        /* ---------- mysterious loader ---------- */
+        .loader {
+            width: min(26rem, 100%); margin-bottom: 3rem;
+            font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--muted);
+        }
+        .loader-row { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.6rem; text-align: left; }
+        .loader-pct { color: var(--paper); font-variant-numeric: tabular-nums; }
+        .loader-track { height: 2px; background: var(--faint); border-radius: 2px; overflow: hidden; }
+        .loader-fill {
+            width: 7%; height: 100%;
+            background: linear-gradient(90deg, var(--saffron), var(--marigold));
+            box-shadow: 0 0 12px var(--saffron);
+            transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* ---------- signals ---------- */
+        .signals { display: flex; flex-direction: column; align-items: center; gap: 1rem; max-width: 34rem; }
+        .signals-hint {
+            margin: 0;
+            font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--muted);
+        }
+        .orbs { display: flex; gap: 1.25rem; }
+        .orb {
+            position: relative; width: 52px; height: 52px; padding: 0;
+            border-radius: 50%; border: 1px solid rgba(255, 145, 77, 0.45);
+            background: rgba(255, 145, 77, 0.05); color: var(--paper);
+            cursor: pointer; transition: transform 0.25s, background 0.25s, border-color 0.25s;
+        }
+        .orb::after {
+            content: ''; position: absolute; inset: -6px; border-radius: 50%;
+            border: 1px solid rgba(255, 145, 77, 0.35);
+            animation: ripple 2.4s ease-out infinite;
+        }
+        .orb:nth-child(2)::after { animation-delay: 0.8s; }
+        .orb:nth-child(3)::after { animation-delay: 1.6s; }
+        @keyframes ripple {
+            from { transform: scale(0.85); opacity: 1; }
+            to { transform: scale(1.5); opacity: 0; }
+        }
+        .orb:hover, .orb:focus-visible { transform: scale(1.08); background: rgba(255, 145, 77, 0.16); outline: none; }
+        .orb-core {
+            position: absolute; top: 50%; left: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px;
+            border-radius: 50%; background: var(--saffron); transition: transform 0.4s;
+        }
+        .orb-num {
+            position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%);
+            font-family: var(--mono); font-size: 0.6rem; color: var(--muted);
+        }
+        .orb-found { border-color: var(--marigold); background: rgba(255, 200, 87, 0.18); }
+        .orb-found::after { animation: none; opacity: 0; }
+        .orb-found .orb-core { background: var(--marigold); transform: scale(2.2); box-shadow: 0 0 14px var(--marigold); }
+        .clue {
+            margin: 1.8rem 0 0;
+            font-family: var(--serif); font-size: clamp(1rem, 2vw, 1.15rem); font-style: italic; line-height: 1.6;
+            animation: decrypt 0.9s ease-out both;
+        }
+        @keyframes decrypt {
+            from { opacity: 0; filter: blur(8px); letter-spacing: 0.2em; }
+            to { opacity: 1; filter: blur(0); letter-spacing: normal; }
+        }
+
+        /* ---------- secret overlay ---------- */
+        .secret {
+            position: fixed; inset: 0; z-index: 10;
+            display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+            background: rgba(5, 4, 8, 0.82); backdrop-filter: blur(10px);
+            animation: fade 0.4s ease-out both;
+        }
+        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+        .secret-card {
+            max-width: 30rem; padding: 2.5rem 2rem; text-align: center;
+            border: 1px solid rgba(255, 200, 87, 0.35); border-radius: 18px;
+            background: linear-gradient(160deg, rgba(255, 145, 77, 0.12), rgba(20, 16, 28, 0.9));
+            animation: rise 0.5s ease-out both;
+        }
+        .secret-eyebrow {
+            margin: 0 0 1rem;
+            font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--saffron);
+        }
+        .secret-text { margin: 0 0 0.8rem; font-family: var(--serif); font-size: 2.2rem; font-style: italic; color: var(--marigold); }
+        .secret-sub { margin: 0 0 1.8rem; line-height: 1.6; color: var(--muted); }
+        .secret-close {
+            padding: 0.75rem 1.4rem;
+            border: 1px solid var(--saffron); border-radius: 999px; background: transparent;
+            color: var(--paper); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em;
+            cursor: pointer; transition: background 0.25s;
+        }
+        .secret-close:hover, .secret-close:focus-visible { background: rgba(255, 145, 77, 0.2); outline: none; }
+
+        @media (max-width: 480px) {
+            .title { letter-spacing: 0.02em; }
+            .footer { justify-content: center; text-align: center; }
+            .coords { display: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="stage" id="stage">
+        <canvas class="sky" id="sky" aria-hidden="true"></canvas>
+        <div class="grain" aria-hidden="true"></div>
+        <div class="vignette" aria-hidden="true"></div>
+
+        <header class="topbar">
+            <span class="mark"><span class="pulse-dot"></span>chaltehai.online</span>
+            <span class="coords">LAT ??.???? · LONG ??.???? · ETA soon</span>
+        </header>
+
+        <main class="content">
+            <p class="eyebrow">Transmission received</p>
+            <h1 class="title" id="title" aria-label="Chalte Hai">CHALTE HAI</h1>
+            <p class="question">…but where?</p>
+
+            <p class="teaser" aria-live="polite"><span id="typed"></span><span class="caret"></span></p>
+
+            <div class="countdown" id="countdown" role="timer" aria-label="Time until launch" hidden></div>
+
+            <div class="loader" id="loader">
+                <div class="loader-row">
+                    <span id="status">Plotting coordinates</span>
+                    <span class="loader-pct" id="pct">7%</span>
+                </div>
+                <div class="loader-track"><div class="loader-fill" id="fill"></div></div>
+            </div>
+
+            <div class="signals">
+                <p class="signals-hint" id="hint">Three signals are hidden here. Tap to decode.</p>
+                <div class="orbs">
+                    <button class="orb" data-id="s1" aria-label="Decode signal 1" aria-pressed="false"><span class="orb-core"></span><span class="orb-num">01</span></button>
+                    <button class="orb" data-id="s2" aria-label="Decode signal 2" aria-pressed="false"><span class="orb-core"></span><span class="orb-num">02</span></button>
+                    <button class="orb" data-id="s3" aria-label="Decode signal 3" aria-pressed="false"><span class="orb-core"></span><span class="orb-num">03</span></button>
+                </div>
+                <p class="clue" id="clue" hidden></p>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <span>Not an app. Not a trip. Not what you're guessing.</span>
+            <span class="whisper">psst — try typing <em>chalo</em></span>
+        </footer>
+
+        <div class="secret" id="secret" role="dialog" aria-modal="true" aria-label="Secret message" hidden>
+            <div class="secret-card">
+                <p class="secret-eyebrow">You weren't supposed to find this</p>
+                <p class="secret-text">Arre, itni jaldi?</p>
+                <p class="secret-sub">Patience, traveller. The road is almost ready — and you're already on the list of the curious.</p>
+                <button class="secret-close" id="secretClose">Theek hai, wait karta hoon</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        (() => {
+            // ---- Set a launch date to show a countdown instead of the progress bar ----
+            // e.g. '2026-12-31T18:30:00+05:30'. Leave empty for the never-quite-finished loader.
+            const LAUNCH_DATE = '';
+
+            const TITLE = 'CHALTE HAI';
+            const GLYPHS = '█▓▒░<>/\\|{}[]=+*#?!ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const SECRET_WORD = 'chalo';
+            const TEASERS = [
+                'Every great story starts with two words.',
+                "The bags aren't packed yet. The map is.",
+                "We can't tell you what it is. We can tell you it moves.",
+                "Somewhere between 'kal karenge' and 'abhi chalo'.",
+                "You've said our name a hundred times. Usually right before leaving.",
+                'Something is being built for people who hate staying still.'
+            ];
+            const STATUSES = [
+                'Plotting coordinates',
+                'Convincing the chai to stay hot',
+                'Packing things we can’t mention',
+                'Arguing about the playlist',
+                'Checking the road ahead',
+                'Almost. Genuinely almost.'
+            ];
+            const CLUES = {
+                s1: 'Signal 01 — It begins with a question everyone asks and nobody answers well.',
+                s2: 'Signal 02 — Two words. Said at a doorstep. Said with a grin. Said by you.',
+                s3: 'Signal 03 — The door opens soon. The curious will hear it first.'
+            };
+            const FINAL_CLUE = 'All three signals found. Remember this feeling — we built it for you. Chalo, see you on the other side.';
+
+            const $ = (id) => document.getElementById(id);
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // ---- title decode ----
+            const titleEl = $('title');
+            function decodeTitle() {
+                if (reducedMotion) return;
+                let frame = 0;
+                const total = 40;
+                const id = setInterval(() => {
+                    frame++;
+                    const revealed = Math.floor((frame / total) * TITLE.length);
+                    titleEl.textContent = TITLE.split('')
+                        .map((ch, i) => (ch === ' ' || i < revealed ? ch : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]))
+                        .join('');
+                    if (frame >= total) {
+                        clearInterval(id);
+                        titleEl.textContent = TITLE;
+                        setTimeout(decodeTitle, 9000 + Math.random() * 6000);
+                    }
+                }, 45);
+            }
+            decodeTitle();
+
+            // ---- typewriter ----
+            const typedEl = $('typed');
+            let lineIdx = 0;
+            function typeLine() {
+                const line = TEASERS[lineIdx % TEASERS.length];
+                if (reducedMotion) {
+                    typedEl.textContent = line;
+                    lineIdx++;
+                    setTimeout(typeLine, 4000);
+                    return;
+                }
+                let i = 0;
+                const typing = setInterval(() => {
+                    typedEl.textContent = line.slice(0, ++i);
+                    if (i >= line.length) {
+                        clearInterval(typing);
+                        setTimeout(() => eraseLine(line), 2600);
+                    }
+                }, 38);
+            }
+            function eraseLine(line) {
+                let i = line.length;
+                const erasing = setInterval(() => {
+                    i -= 2;
+                    typedEl.textContent = line.slice(0, Math.max(i, 0));
+                    if (i <= 0) {
+                        clearInterval(erasing);
+                        lineIdx++;
+                        setTimeout(typeLine, 350);
+                    }
+                }, 18);
+            }
+            setTimeout(typeLine, 1400);
+
+            // ---- countdown or loader ----
+            const launch = Date.parse(LAUNCH_DATE);
+            if (LAUNCH_DATE && !Number.isNaN(launch)) {
+                $('loader').hidden = true;
+                const cd = $('countdown');
+                cd.hidden = false;
+                const pad = (n) => String(n).padStart(2, '0');
+                const tick = () => {
+                    const s = Math.floor(Math.max(0, launch - Date.now()) / 1000);
+                    const units = [
+                        ['days', Math.floor(s / 86400)],
+                        ['hours', Math.floor((s % 86400) / 3600)],
+                        ['minutes', Math.floor((s % 3600) / 60)],
+                        ['seconds', s % 60]
+                    ];
+                    cd.innerHTML = units
+                        .map(([label, v]) => `<div class="unit"><span class="unit-value">${pad(v)}</span><span class="unit-label">${label}</span></div>`)
+                        .join('');
+                };
+                tick();
+                setInterval(tick, 1000);
+            } else {
+                let progress = 7;
+                let step = 0;
+                const render = () => {
+                    $('pct').textContent = progress + '%';
+                    $('fill').style.width = progress + '%';
+                    $('status').textContent = STATUSES[step % STATUSES.length];
+                };
+                setInterval(() => {
+                    // creeps toward 99 but never quite gets there
+                    progress = Math.min(99, progress + Math.max(1, Math.round((99 - progress) * 0.12)));
+                    step++;
+                    render();
+                    if (progress >= 99) {
+                        setTimeout(() => { progress = 91; render(); }, 2500);
+                    }
+                }, 2200);
+            }
+
+            // ---- signals ----
+            const found = new Set();
+            const hintEl = $('hint');
+            const clueEl = $('clue');
+            document.querySelectorAll('.orb').forEach((btn, i) => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    found.add(id);
+                    btn.classList.add('orb-found');
+                    btn.setAttribute('aria-pressed', 'true');
+                    btn.setAttribute('aria-label', `Signal ${i + 1} decoded`);
+
+                    const n = found.size;
+                    hintEl.textContent = n < 3 ? `${n} of 3 signals decoded. Keep going.` : 'Signal lock complete.';
+
+                    clueEl.textContent = n === 3 ? FINAL_CLUE : CLUES[id];
+                    clueEl.hidden = false;
+                    // restart the decrypt animation
+                    clueEl.style.animation = 'none';
+                    void clueEl.offsetWidth;
+                    clueEl.style.animation = '';
+                });
+            });
+
+            // ---- easter egg ----
+            const secretEl = $('secret');
+            let keyBuffer = '';
+            const closeSecret = () => { secretEl.hidden = true; };
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') return closeSecret();
+                if (!e.key || e.key.length !== 1) return;
+                keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-SECRET_WORD.length);
+                if (keyBuffer === SECRET_WORD) {
+                    secretEl.hidden = false;
+                    $('secretClose').focus();
+                    keyBuffer = '';
+                }
+            });
+            secretEl.addEventListener('click', (e) => { if (e.target === secretEl) closeSecret(); });
+            $('secretClose').addEventListener('click', closeSecret);
+
+            // ---- constellation canvas ----
+            const canvas = $('sky');
+            const ctx = canvas.getContext('2d');
+            let w = 0, h = 0, pts = [];
+            const pointer = { x: -9999, y: -9999 };
+
+            function resize() {
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                w = canvas.clientWidth;
+                h = canvas.clientHeight;
+                canvas.width = w * dpr;
+                canvas.height = h * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                const count = Math.round(Math.min(120, (w * h) / 11000));
+                pts = Array.from({ length: count }, () => ({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: (Math.random() - 0.5) * 0.25,
+                    vy: (Math.random() - 0.5) * 0.25,
+                    r: Math.random() * 1.4 + 0.3,
+                    tw: Math.random() * Math.PI * 2
+                }));
+            }
+
+            const stage = $('stage');
+            const track = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const p = e.touches ? e.touches[0] : e;
+                pointer.x = p.clientX - rect.left;
+                pointer.y = p.clientY - rect.top;
+            };
+            stage.addEventListener('mousemove', track);
+            stage.addEventListener('touchmove', track, { passive: true });
+            window.addEventListener('resize', resize);
+
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+                for (const p of pts) {
+                    if (!reducedMotion) {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.tw += 0.02;
+                    }
+                    if (p.x < 0) p.x = w;
+                    if (p.x > w) p.x = 0;
+                    if (p.y < 0) p.y = h;
+                    if (p.y > h) p.y = 0;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 236, 210, ${0.35 + Math.sin(p.tw) * 0.25})`;
+                    ctx.fill();
+                }
+                // stars near the cursor join into a constellation — a map drawing itself
+                const near = pts.filter((p) => Math.hypot(p.x - pointer.x, p.y - pointer.y) < 170);
+                for (let i = 0; i < near.length; i++) {
+                    for (let j = i + 1; j < near.length; j++) {
+                        const d = Math.hypot(near[i].x - near[j].x, near[i].y - near[j].y);
+                        if (d < 120) {
+                            ctx.strokeStyle = `rgba(255, 145, 77, ${0.5 * (1 - d / 120)})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.beginPath();
+                            ctx.moveTo(near[i].x, near[i].y);
+                            ctx.lineTo(near[j].x, near[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(draw);
+            }
+            resize();
+            requestAnimationFrame(draw);
+        })();
+    </script>
+</body>
+</html>
