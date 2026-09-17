@@ -844,25 +844,47 @@
                 openSheet(true);
             }
 
-            // ---- visitor counter (GoatCounter, free) ----
-            // After signing up at goatcounter.com, put your site code here, e.g. 'chaltehai'.
-            // Also tick "Allow adding visitor counts on your website" in GoatCounter settings.
-            const GOATCOUNTER_CODE = '';
-            if (GOATCOUNTER_CODE && location.protocol.startsWith('http')) {
-                const gc = document.createElement('script');
-                gc.async = true;
-                gc.src = 'https://gc.zgo.at/count.js';
-                gc.dataset.goatcounter = `https://${GOATCOUNTER_CODE}.goatcounter.com/count`;
-                document.head.appendChild(gc);
+            // ---- visitor counter (stored in Salesforce: Site_Visit__c via the ChalteHaiApi site) ----
+            const VISITS_API = 'https://orgfarm-bfdf191497-dev-ed.develop.my.salesforce-sites.com/chaltehaiapi/services/apexrest/visits';
+            const MIN_TO_SHOW = 10; // don't show "Ab tak 2 curious log…" on day one
+            const store = (area, key, value) => {
+                try {
+                    if (value === undefined) return window[area].getItem(key);
+                    window[area].setItem(key, value);
+                } catch (e) {
+                    return null;
+                }
+            };
+            (() => {
+                // only real visits on the live domain count; local previews just read the total
+                const isLive = /(^|\.)chaltehai\.online$/.test(location.hostname);
+                const alreadyThisSession = store('sessionStorage', 'ch_visit');
+                const shouldCount = isLive && !alreadyThisSession;
+                const isUnique = !store('localStorage', 'ch_seen');
 
-                fetch(`https://${GOATCOUNTER_CODE}.goatcounter.com/counter/TOTAL.json`)
-                    .then((r) => (r.ok ? r.json() : Promise.reject()))
+                const req = shouldCount
+                    ? fetch(VISITS_API, {
+                          method: 'POST',
+                          // text/plain keeps this a "simple" request: no CORS preflight
+                          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                          body: JSON.stringify({ unique: isUnique }),
+                          keepalive: true
+                      })
+                    : fetch(VISITS_API);
+
+                req.then((r) => (r.ok ? r.json() : Promise.reject()))
                     .then((d) => {
-                        $('visitorCount').textContent = d.count;
-                        $('visitors').hidden = false;
+                        if (shouldCount) {
+                            store('sessionStorage', 'ch_visit', '1');
+                            store('localStorage', 'ch_seen', '1');
+                        }
+                        if (d.unique >= MIN_TO_SHOW) {
+                            $('visitorCount').textContent = d.unique.toLocaleString('en-IN');
+                            $('visitors').hidden = false;
+                        }
                     })
                     .catch(() => {});
-            }
+            })();
 
             // ---- a note for anyone who opens DevTools ----
             console.log(
