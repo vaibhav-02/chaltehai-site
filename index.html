@@ -577,7 +577,7 @@
                     if (frame >= total) {
                         clearInterval(id);
                         titleEl.textContent = TITLE;
-                        setTimeout(decodeTitle, 9000 + Math.random() * 6000);
+                        setTimeout(decodeTitle, 14000 + Math.random() * 8000);
                     }
                 }, 45);
             }
@@ -586,12 +586,14 @@
             // ---- typewriter ----
             const typedEl = $('typed');
             let lineIdx = 0;
+            // hold long enough to actually read the line: ~3.4 words/second, never less than 3.5s
+            const readingTime = (line) => Math.min(9000, Math.max(3500, 1200 + line.length * 65));
             function typeLine() {
                 const line = TEASERS[lineIdx % TEASERS.length];
                 if (reducedMotion) {
                     typedEl.textContent = line;
                     lineIdx++;
-                    setTimeout(typeLine, 4000);
+                    setTimeout(typeLine, readingTime(line) + 1000);
                     return;
                 }
                 let i = 0;
@@ -599,21 +601,21 @@
                     typedEl.textContent = line.slice(0, ++i);
                     if (i >= line.length) {
                         clearInterval(typing);
-                        setTimeout(() => eraseLine(line), 2600);
+                        setTimeout(() => eraseLine(line), readingTime(line));
                     }
-                }, 38);
+                }, 42);
             }
             function eraseLine(line) {
                 let i = line.length;
                 const erasing = setInterval(() => {
-                    i -= 2;
+                    i -= 1;
                     typedEl.textContent = line.slice(0, Math.max(i, 0));
                     if (i <= 0) {
                         clearInterval(erasing);
                         lineIdx++;
-                        setTimeout(typeLine, 350);
+                        setTimeout(typeLine, 600);
                     }
-                }, 18);
+                }, 22);
             }
             setTimeout(typeLine, 1400);
 
@@ -652,9 +654,9 @@
                     step++;
                     render();
                     if (progress >= 99) {
-                        setTimeout(() => { progress = 91; render(); }, 2500);
+                        setTimeout(() => { progress = 91; render(); }, 3000);
                     }
-                }, 2200);
+                }, 3400);
             }
 
             // ---- signals ----
