@@ -3,15 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Chalte Hai — …but where?</title>
-    <meta name="description" content="Every great story starts with two words. Something is coming to chaltehai.online." />
+    <title>Chalte Hai — …par kahaan?</title>
+    <meta name="description" content="Har great story do words se shuru hoti hai. chaltehai.online pe kuch aa raha hai." />
     <meta name="theme-color" content="#0b0a10" />
     <link rel="canonical" href="https://chaltehai.online/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://chaltehai.online/" />
-    <meta property="og:title" content="Chalte Hai — …but where?" />
-    <meta property="og:description" content="Every great story starts with two words. Something is coming." />
+    <meta property="og:title" content="Chalte Hai — …par kahaan?" />
+    <meta property="og:description" content="Har great story do words se shuru hoti hai. Kuch aa raha hai." />
     <meta name="twitter:card" content="summary" />
 
     <link
@@ -268,13 +268,13 @@
 
         <header class="topbar">
             <span class="mark"><span class="pulse-dot"></span>chaltehai.online</span>
-            <span class="coords">LAT ??.???? · LONG ??.???? · ETA soon</span>
+            <span class="coords">LAT ??.???? · LONG ??.???? · ETA: jald hi</span>
         </header>
 
         <main class="content">
-            <p class="eyebrow">Transmission received</p>
+            <p class="eyebrow">Signal mil gaya hai</p>
             <h1 class="title" id="title" aria-label="Chalte Hai">CHALTE HAI</h1>
-            <p class="question">…but where?</p>
+            <p class="question">…par kahaan?</p>
 
             <p class="teaser" aria-live="polite"><span id="typed"></span><span class="caret"></span></p>
 
@@ -282,14 +282,14 @@
 
             <div class="loader" id="loader">
                 <div class="loader-row">
-                    <span id="status">Plotting coordinates</span>
+                    <span id="status">Coordinates set ho rahe hain</span>
                     <span class="loader-pct" id="pct">7%</span>
                 </div>
                 <div class="loader-track"><div class="loader-fill" id="fill"></div></div>
             </div>
 
             <div class="signals">
-                <p class="signals-hint" id="hint">Three signals are hidden here. Tap to decode.</p>
+                <p class="signals-hint" id="hint">Teen signals chhupe hain. Tap karo, decode karo.</p>
                 <div class="orbs">
                     <button class="orb" data-id="s1" aria-label="Decode signal 1" aria-pressed="false"><span class="orb-core"></span><span class="orb-num">01</span></button>
                     <button class="orb" data-id="s2" aria-label="Decode signal 2" aria-pressed="false"><span class="orb-core"></span><span class="orb-num">02</span></button>
@@ -300,16 +300,16 @@
         </main>
 
         <footer class="footer">
-            <span>Not an app. Not a trip. Not what you're guessing.</span>
-            <span class="whisper">psst — try typing <em>chalo</em></span>
+            <span>App nahi. Trip nahi. Jo soch rahe ho, woh bhi nahi.</span>
+            <span class="whisper">psst — keyboard pe type karo <em>chalo</em></span>
         </footer>
 
         <div class="secret" id="secret" role="dialog" aria-modal="true" aria-label="Secret message" hidden>
             <div class="secret-card">
-                <p class="secret-eyebrow">You weren't supposed to find this</p>
+                <p class="secret-eyebrow">Yeh tumhe milna nahi chahiye tha</p>
                 <p class="secret-text">Arre, itni jaldi?</p>
-                <p class="secret-sub">Patience, traveller. The road is almost ready — and you're already on the list of the curious.</p>
-                <button class="secret-close" id="secretClose">Theek hai, wait karta hoon</button>
+                <p class="secret-sub">Sabr rakho, musafir. Raasta almost ready hai — aur curious logon ki list mein tumhara naam pehle se hai.</p>
+                <button class="secret-close" id="secretClose">Theek hai, wait kar lenge</button>
             </div>
         </div>
     </section>
@@ -324,27 +324,30 @@
             const GLYPHS = '█▓▒░<>/\\|{}[]=+*#?!ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             const SECRET_WORD = 'chalo';
             const TEASERS = [
-                'Every great story starts with two words.',
-                "The bags aren't packed yet. The map is.",
-                "We can't tell you what it is. We can tell you it moves.",
+                'Har great story do words se shuru hoti hai.',
+                'Bag abhi pack nahi hua. Map ho chuka hai.',
+                'Kya hai, abhi nahi bataayenge. Bas itna jaan lo — it moves.',
                 "Somewhere between 'kal karenge' and 'abhi chalo'.",
-                "You've said our name a hundred times. Usually right before leaving.",
-                'Something is being built for people who hate staying still.'
+                'Yeh naam tumne sau baar bola hai. Usually, ghar se nikalne se just pehle.',
+                'Un logon ke liye, jinse ek jagah tika nahi jaata.',
+                'Chai ready rakho. Kuch aa raha hai.',
+                'Is baar plan cancel nahi hoga. Promise.'
             ];
             const STATUSES = [
-                'Plotting coordinates',
-                'Convincing the chai to stay hot',
-                'Packing things we can’t mention',
-                'Arguing about the playlist',
-                'Checking the road ahead',
-                'Almost. Genuinely almost.'
+                'Coordinates set ho rahe hain',
+                'Chai garam rakhne ki koshish jaari hai',
+                'Kuch cheezein pack ho rahi hain (no spoilers)',
+                'Playlist pe bahas chal rahi hai',
+                'Ghar pe permission li ja rahi hai',
+                'Aage ka raasta check ho raha hai',
+                'Bas thoda sa aur. Sach mein.'
             ];
             const CLUES = {
-                s1: 'Signal 01 — It begins with a question everyone asks and nobody answers well.',
-                s2: 'Signal 02 — Two words. Said at a doorstep. Said with a grin. Said by you.',
-                s3: 'Signal 03 — The door opens soon. The curious will hear it first.'
+                s1: "Signal 01 — Shuru hota hai ek sawaal se, jo sab poochte hain par koi theek se answer nahi karta.",
+                s2: 'Signal 02 — Do shabd. Darwaaze pe khade hoke. Chehre pe smile ke saath. Tumne bhi bole hain.',
+                s3: 'Signal 03 — Darwaaza jald khulega. Pehli dastak curious logon ko hi sunai degi.'
             };
-            const FINAL_CLUE = 'All three signals found. Remember this feeling — we built it for you. Chalo, see you on the other side.';
+            const FINAL_CLUE = 'Teeno signals mil gaye. Tum toh detective nikle! Yeh feeling yaad rakhna — sab tumhare liye hi ban raha hai. Chalo, milte hain us paar.';
 
             const $ = (id) => document.getElementById(id);
             const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -414,10 +417,10 @@
                 const tick = () => {
                     const s = Math.floor(Math.max(0, launch - Date.now()) / 1000);
                     const units = [
-                        ['days', Math.floor(s / 86400)],
-                        ['hours', Math.floor((s % 86400) / 3600)],
-                        ['minutes', Math.floor((s % 3600) / 60)],
-                        ['seconds', s % 60]
+                        ['din', Math.floor(s / 86400)],
+                        ['ghante', Math.floor((s % 86400) / 3600)],
+                        ['minute', Math.floor((s % 3600) / 60)],
+                        ['second', s % 60]
                     ];
                     cd.innerHTML = units
                         .map(([label, v]) => `<div class="unit"><span class="unit-value">${pad(v)}</span><span class="unit-label">${label}</span></div>`)
@@ -457,7 +460,7 @@
                     btn.setAttribute('aria-label', `Signal ${i + 1} decoded`);
 
                     const n = found.size;
-                    hintEl.textContent = n < 3 ? `${n} of 3 signals decoded. Keep going.` : 'Signal lock complete.';
+                    hintEl.textContent = n < 3 ? `${n}/3 signals decode ho gaye. Rukna mat.` : 'Signal lock complete.';
 
                     clueEl.textContent = n === 3 ? FINAL_CLUE : CLUES[id];
                     clueEl.hidden = false;
