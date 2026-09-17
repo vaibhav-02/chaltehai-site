@@ -337,6 +337,10 @@
         .submit:hover, .submit:focus-visible { filter: brightness(1.08); transform: translateY(-1px); outline: none; }
         .submit[disabled] { opacity: 0.6; cursor: progress; transform: none; }
         .form-error { margin: 0.8rem 0 0; font-size: 0.85rem; color: #ffb4a2; }
+        /* badge hidden — Google allows this when the disclosure text below is shown */
+        .grecaptcha-badge { visibility: hidden; }
+        .recaptcha-note { margin: 1rem 0 0; font-size: 0.68rem; line-height: 1.5; color: rgba(255, 244, 230, 0.4); text-align: center; }
+        .recaptcha-note a { color: var(--muted); }
         .thanks { text-align: center; padding: 1rem 0 0.5rem; }
         .thanks-emoji { font-size: 3rem; line-height: 1; animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
         .thanks h2 { margin-top: 1rem; }
@@ -464,6 +468,9 @@
                     <input type="hidden" name="retURL" value="https://chaltehai.online/?shukriya=1" />
                     <input type="hidden" name="lead_source" value="Web" />
                     <input type="hidden" name="company" value="chaltehai.online" />
+                    <input type="hidden" name="captcha_settings" id="captchaSettings"
+                        value='{"keyname":"ChalteHaiVaibhav20252025","fallback":"true","orgId":"00DjV000003jUL9","ts":""}' />
+                    <div id="recaptcha"></div>
 
                     <h2 id="sheetTitle">Apna idea do</h2>
                     <p class="sheet-lead">Hum kuch bana rahe hain. Tumhara ek idea shayad iski direction badal de. Koi idea chhota nahi hota.</p>
@@ -491,6 +498,11 @@
                     <p class="fineprint">Email doge toh launch pe sabse pehle tumhe batayenge. Spam nahi karenge — promise.</p>
                     <button class="submit" id="ideaSubmit" type="submit">Idea bhejo 🚀</button>
                     <p class="form-error" id="formError" hidden>Kuch gadbad ho gayi. Ek baar phir try karo?</p>
+                    <p class="recaptcha-note">
+                        Robots se bachne ke liye reCAPTCHA laga hai — Google ki
+                        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> aur
+                        <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms</a> apply hote hain.
+                    </p>
                 </form>
 
                 <div class="thanks" id="thanks" hidden>
@@ -716,6 +728,7 @@
                 if (showThanks) {
                     $('thanksClose').focus();
                 } else {
+                    loadRecaptcha().catch(() => {});
                     ideaText.focus();
                     promptTimer = setInterval(() => {
                         if (!ideaText.value) ideaText.placeholder = PROMPTS[++promptIdx % PROMPTS.length];
@@ -737,6 +750,73 @@
                 $('ideaCount').textContent = `${ideaText.value.length}/1000`;
             });
 
+            // ---- invisible reCAPTCHA v2 (loaded the first time the idea box opens) ----
+            const RECAPTCHA_SITE_KEY = '6Lf978AtAAAAAODsTf62Y4MncOAqWVvJZOtMuCDh';
+            let recaptchaReady;
+            let widgetId;
+            let onToken = () => {};
+            let restoreTimer;
+
+            function loadRecaptcha() {
+                if (recaptchaReady) return recaptchaReady;
+                recaptchaReady = new Promise((resolve, reject) => {
+                    window.__onRecaptchaLoad = () => {
+                        widgetId = grecaptcha.render('recaptcha', {
+                            sitekey: RECAPTCHA_SITE_KEY,
+                            size: 'invisible',
+                            theme: 'dark',
+                            callback: (token) => onToken(token),
+                            'expired-callback': () => grecaptcha.reset(widgetId),
+                            'error-callback': () => showError('reCAPTCHA se connect nahi ho paya. Thodi der baad try karo?')
+                        });
+                        resolve();
+                    };
+                    const s = document.createElement('script');
+                    s.src = 'https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoad&render=explicit';
+                    s.async = true;
+                    s.onerror = () => {
+                        recaptchaReady = null;
+                        reject();
+                    };
+                    document.head.appendChild(s);
+                });
+                return recaptchaReady;
+            }
+
+            function resetButton() {
+                clearTimeout(restoreTimer);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Idea bhejo 🚀';
+            }
+            function showError(msg) {
+                errorEl.textContent = msg;
+                errorEl.hidden = false;
+                resetButton();
+            }
+
+            async function sendIdea(token) {
+                // Salesforce expects the moment the captcha was solved in captcha_settings.ts
+                const settings = JSON.parse($('captchaSettings').value);
+                settings.ts = JSON.stringify(Date.now());
+                $('captchaSettings').value = JSON.stringify(settings);
+
+                const data = new FormData(formEl);
+                data.delete('website_hp');
+                data.set('g-recaptcha-response', token);
+                try {
+                    // Salesforce replies with a cross-origin redirect we can't read — 'no-cors' just delivers it
+                    await fetch(formEl.action, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(data) });
+                    formEl.reset();
+                    $('ideaCount').textContent = '0/1000';
+                    resetButton();
+                    openSheet(true);
+                } catch (err) {
+                    showError('Kuch gadbad ho gayi. Ek baar phir try karo?');
+                } finally {
+                    grecaptcha.reset(widgetId);
+                }
+            }
+
             formEl.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 if (!ideaText.value.trim()) return ideaText.focus();
@@ -747,20 +827,15 @@
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Bhej rahe hain…';
                 errorEl.hidden = true;
-                const data = new FormData(formEl);
-                data.delete('website_hp');
                 try {
-                    // Salesforce replies with a cross-origin redirect we can't read — 'no-cors' just delivers it
-                    await fetch(formEl.action, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(data) });
-                    formEl.reset();
-                    $('ideaCount').textContent = '0/1000';
-                    openSheet(true);
+                    await loadRecaptcha();
                 } catch (err) {
-                    errorEl.hidden = false;
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Idea bhejo 🚀';
+                    return showError('reCAPTCHA load nahi hua. Ad-blocker band karke phir try karo?');
                 }
+                onToken = sendIdea;
+                // if Google shows a picture puzzle and the visitor closes it, un-freeze the button
+                restoreTimer = setTimeout(resetButton, 20000);
+                grecaptcha.execute(widgetId);
             });
 
             // returning from a non-JS form post (retURL = /?shukriya=1)
