@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Chalte Hai — …par kahaan?</title>
+    <title>Chalte Hai? 🧭 Kuch aa raha hai</title>
     <meta name="description" content="Har great story do words se shuru hoti hai. chaltehai.online pe kuch aa raha hai." />
     <meta name="theme-color" content="#0b0a10" />
     <link rel="canonical" href="https://chaltehai.online/" />
@@ -16,6 +16,7 @@
 
     <link
         rel="icon"
+        id="favicon"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0a10'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff914d'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='%23ff914d' stroke-opacity='.5' stroke-width='2'/%3E%3C/svg%3E"
     />
 
@@ -487,6 +488,44 @@
             });
             secretEl.addEventListener('click', (e) => { if (e.target === secretEl) closeSecret(); });
             $('secretClose').addEventListener('click', closeSecret);
+
+            // ---- browser tab: title & icon react when the visitor leaves and comes back ----
+            const faviconEl = $('favicon');
+            const HOME_TITLE = document.title;
+            const HOME_ICON = faviconEl.href;
+            const emojiIcon = (emoji) =>
+                'data:image/svg+xml,' +
+                encodeURIComponent(
+                    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><text x="50%" y="54%" font-size="52" text-anchor="middle" dominant-baseline="middle">${emoji}</text></svg>`
+                );
+            const AWAY = [
+                ['👀', 'Arre, wapas aao…'],
+                ['☕', 'Chai thandi ho rahi hai'],
+                ['🤫', 'Ek secret miss ho raha hai'],
+                ['🧭', 'Raasta yahin hai, udhar nahi']
+            ];
+            let awayTimer;
+            let backTimer;
+            const setTab = (title, icon) => {
+                document.title = title;
+                faviconEl.href = icon;
+            };
+            document.addEventListener('visibilitychange', () => {
+                clearInterval(awayTimer);
+                clearTimeout(backTimer);
+                if (document.hidden) {
+                    let i = 0;
+                    const show = () => {
+                        const [emoji, text] = AWAY[i++ % AWAY.length];
+                        setTab(text, emojiIcon(emoji));
+                    };
+                    show();
+                    awayTimer = setInterval(show, 3000);
+                } else {
+                    setTab('Pata tha, wapas aaoge 😏', emojiIcon('😏'));
+                    backTimer = setTimeout(() => setTab(HOME_TITLE, HOME_ICON), 2000);
+                }
+            });
 
             // ---- constellation canvas ----
             const canvas = $('sky');
