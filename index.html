@@ -631,7 +631,7 @@
                 <span class="signature-name">Vaibhav Sharma</span>
                 <span class="flourish" aria-hidden="true"></span>
             </span>
-            <p class="credit">Ghar ke Bappa · photo: Vaibhav Sharma · Ghanta: the_very_Real_Horst (CC0)</p>
+            <p class="credit">Ghanta: the_very_Real_Horst (CC0)</p>
         </footer>
     </main>
 
@@ -1096,7 +1096,6 @@
             });
 
             // ================= darshan complete =================
-            const todayIST = () => new Date(Date.now() + 5.5 * 3600e3).toISOString().slice(0, 10);
             function finishDarshan() {
                 setTimeout(() => {
                     shower(80);
@@ -1106,10 +1105,6 @@
                     $('done').scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
                     $('prasadBtn').focus({ preventScroll: true });
                 }, 600);
-                if (store('localStorage', 'ch_darshan_day') !== todayIST()) {
-                    store('localStorage', 'ch_darshan_day', todayIST());
-                    post('darshan', 1).then(applyCounts);
-                }
             }
             $('prasadBtn').addEventListener('click', () => {
                 $('prasad').hidden = false;
@@ -1126,6 +1121,11 @@
             // ================= the darshan begins =================
             $('startBtn').addEventListener('click', async () => {
                 shankh();
+                // a darshan = a unique visitor tapping "Darshan karein" (counted once per browser)
+                if (!store('localStorage', 'ch_darshan_counted')) {
+                    store('localStorage', 'ch_darshan_counted', '1');
+                    post('darshan', 1).then(applyCounts);
+                }
                 const gate = $('gate');
                 gate.classList.add('leaving');
                 await wait(reducedMotion ? 0 : 650);
