@@ -1,416 +1,515 @@
 <!doctype html>
-<html lang="en">
+<html lang="hi-Latn">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Chalte Hai? 🧭 Kuch aa raha hai</title>
-    <meta name="description" content="Har great story do words se shuru hoti hai. chaltehai.online pe kuch aa raha hai." />
-    <meta name="theme-color" content="#0b0a10" />
+    <title>Ganpati Darshan 🌺 Chalte Hai</title>
+    <meta name="description" content="Ghar baithe Bappa ke darshan — ghanti, phool, aarti aur modak bhog. Ganpati Bappa Morya! 🙏" />
+    <meta name="theme-color" content="#1c0608" />
     <meta name="author" content="Vaibhav Sharma" />
     <link rel="canonical" href="https://chaltehai.online/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://chaltehai.online/" />
-    <meta property="og:title" content="Chalte Hai — …par kahaan?" />
-    <meta property="og:description" content="Har great story do words se shuru hoti hai. Kuch aa raha hai." />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:title" content="Bappa ke darshan 🌺 — Ganpati Bappa Morya!" />
+    <meta property="og:description" content="Ghanti, phool, aarti aur modak bhog — ghar baithe Bappa ke darshan karo." />
+    <meta property="og:image" content="https://chaltehai.online/og-ganpati.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <link
         rel="icon"
         id="favicon"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0a10'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff914d'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='%23ff914d' stroke-opacity='.5' stroke-width='2'/%3E%3C/svg%3E"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext x='50%25' y='54%25' font-size='52' text-anchor='middle' dominant-baseline='middle'%3E🌺%3C/text%3E%3C/svg%3E"
     />
+    <link rel="preload" as="image" href="ganpati.jpg" />
 
     <style>
         :root {
-            --ink: #0b0a10;
+            --ink: #140507;
             --paper: #fff4e6;
-            --muted: rgba(255, 244, 230, 0.58);
+            --muted: rgba(255, 244, 230, 0.62);
             --faint: rgba(255, 244, 230, 0.14);
             --saffron: #ff914d;
             --marigold: #ffc857;
+            --kumkum: #c8102e;
+            --gold: #e9b44c;
             --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
             --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             --mono: ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+            --deva: 'Nirmala UI', 'Kohinoor Devanagari', 'Noto Sans Devanagari', Mangal, var(--serif);
             color-scheme: dark;
         }
-
         *, *::before, *::after { box-sizing: border-box; }
-        html, body { margin: 0; background: var(--ink); }
-        [hidden] { display: none !important; }
-
-        .stage {
-            position: relative;
-            min-height: 100vh;
-            min-height: 100dvh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            color: var(--paper);
-            font-family: var(--sans);
+        html { background: var(--ink); }
+        body {
+            margin: 0; min-height: 100vh;
+            color: var(--paper); font-family: var(--sans);
             background:
-                radial-gradient(ellipse 80% 55% at 50% 115%, rgba(255, 120, 50, 0.28), transparent 70%),
-                radial-gradient(ellipse 60% 40% at 85% -10%, rgba(120, 80, 255, 0.16), transparent 70%),
-                var(--ink);
+                radial-gradient(ellipse 80% 50% at 50% 30%, rgba(255, 140, 50, 0.22), transparent 70%),
+                radial-gradient(ellipse 120% 60% at 50% 110%, rgba(200, 16, 46, 0.32), transparent 60%),
+                linear-gradient(180deg, #1c0608, #0d0406 70%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
         }
-
-        /* ---------- atmosphere ---------- */
-        .sky { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-        .vignette {
-            position: absolute; inset: 0; pointer-events: none;
-            background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.65) 100%);
-        }
-        .grain {
-            position: absolute; inset: -50%; pointer-events: none; opacity: 0.06;
-            background-image: repeating-radial-gradient(circle at 17% 32%, #fff 0 1px, transparent 1px 3px);
-            animation: grain 1.2s steps(6) infinite;
-        }
-        @keyframes grain {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(-3%, 2%); }
-            50% { transform: translate(2%, -3%); }
-            75% { transform: translate(-2%, -1%); }
-            100% { transform: translate(0, 0); }
-        }
-
-        /* ---------- chrome ---------- */
-        .topbar, .footer {
-            position: relative; z-index: 2;
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-            gap: 0.5rem 1.5rem;
-            padding: calc(1.5rem + env(safe-area-inset-top, 0px)) clamp(1rem, 4vw, 3rem) 1.5rem;
-            font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
-            color: var(--muted);
-        }
-        .footer {
-            font-size: 0.68rem;
-            padding: 1.5rem clamp(1rem, 4vw, 3rem) calc(1.5rem + env(safe-area-inset-bottom, 0px));
-        }
-        .mark { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--paper); }
-        .pulse-dot {
-            width: 8px; height: 8px; border-radius: 50%; background: var(--saffron);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 145, 77, 0.7); }
-            70% { box-shadow: 0 0 0 12px rgba(255, 145, 77, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 145, 77, 0); }
-        }
-        .whisper { opacity: 0.45; transition: opacity 0.3s; }
-        .whisper:hover { opacity: 1; }
-        .whisper em { font-style: normal; color: var(--marigold); }
-
-        /* ---------- hero ---------- */
-        .content {
-            position: relative; z-index: 2; flex: 1;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center;
-            padding: 2rem clamp(1rem, 5vw, 3rem);
-        }
-        .eyebrow {
-            margin: 0 0 1.5rem;
-            font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.35em; text-transform: uppercase;
-            color: var(--saffron);
-            animation: rise 1s ease-out both;
-        }
-        .title {
-            margin: 0;
-            font-family: var(--mono); font-weight: 700;
-            font-size: clamp(2.6rem, 11vw, 8.5rem); line-height: 0.95; letter-spacing: 0.06em;
-            white-space: nowrap;
-            background: linear-gradient(180deg, #fffaf2 30%, #ffb27a 100%);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            text-shadow: 0 0 60px rgba(255, 145, 77, 0.25);
-        }
-        .question {
-            margin: 0.6rem 0 2.2rem;
-            font-family: var(--serif); font-style: italic; font-size: clamp(1.4rem, 3.4vw, 2.3rem);
-            color: var(--marigold);
-            animation: rise 1s 0.9s ease-out both;
-        }
-        .teaser {
-            min-height: 3.2em; max-width: 38rem; margin: 0 0 2.5rem;
-            font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.6;
-        }
-        .caret {
-            display: inline-block; width: 2px; height: 1.1em; margin-left: 3px; vertical-align: -0.15em;
-            background: var(--saffron);
-            animation: blink 1s steps(1) infinite;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
-        @keyframes rise {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ---------- countdown ---------- */
-        .countdown {
-            display: flex; flex-wrap: wrap; justify-content: center;
-            gap: clamp(0.75rem, 3vw, 2rem); margin-bottom: 3rem;
-        }
-        .unit {
-            display: flex; flex-direction: column; align-items: center;
-            min-width: 4.5rem; padding: 0.9rem 0.6rem;
-            border: 1px solid var(--faint); border-radius: 12px;
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(6px);
-        }
-        .unit-value { font-family: var(--mono); font-size: clamp(1.6rem, 4vw, 2.4rem); font-variant-numeric: tabular-nums; }
-        .unit-label { margin-top: 0.3rem; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
-
-        /* ---------- mysterious loader ---------- */
-        .loader {
-            width: min(26rem, 100%); margin-bottom: 3rem;
-            font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--muted);
-        }
-        .loader-row { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.6rem; text-align: left; }
-        .loader-pct { color: var(--paper); font-variant-numeric: tabular-nums; }
-        .loader-track { height: 2px; background: var(--faint); border-radius: 2px; overflow: hidden; }
-        .loader-fill {
-            width: 7%; height: 100%;
-            background: linear-gradient(90deg, var(--saffron), var(--marigold));
-            box-shadow: 0 0 12px var(--saffron);
-            transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        /* ---------- signals ---------- */
-        .signals { display: flex; flex-direction: column; align-items: center; gap: 1rem; max-width: 34rem; }
-        .signals-hint {
-            margin: 0;
-            font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
-            color: var(--muted);
-        }
-        .orbs { display: flex; gap: 1.25rem; }
-        .orb {
-            position: relative; width: 52px; height: 52px; padding: 0;
-            border-radius: 50%; border: 1px solid rgba(255, 145, 77, 0.45);
-            background: rgba(255, 145, 77, 0.05); color: var(--paper);
-            cursor: pointer; transition: transform 0.25s, background 0.25s, border-color 0.25s;
-        }
-        .orb::after {
-            content: ''; position: absolute; inset: -6px; border-radius: 50%;
-            border: 1px solid rgba(255, 145, 77, 0.35);
-            animation: ripple 2.4s ease-out infinite;
-        }
-        .orb:nth-child(2)::after { animation-delay: 0.8s; }
-        .orb:nth-child(3)::after { animation-delay: 1.6s; }
-        @keyframes ripple {
-            from { transform: scale(0.85); opacity: 1; }
-            to { transform: scale(1.5); opacity: 0; }
-        }
-        .orb:hover, .orb:focus-visible { transform: scale(1.08); background: rgba(255, 145, 77, 0.16); outline: none; }
-        .orb-core {
-            position: absolute; top: 50%; left: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px;
-            border-radius: 50%; background: var(--saffron); transition: transform 0.4s;
-        }
-        .orb-num {
-            position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%);
-            font-family: var(--mono); font-size: 0.6rem; color: var(--muted);
-        }
-        .orb-found { border-color: var(--marigold); background: rgba(255, 200, 87, 0.18); }
-        .orb-found::after { animation: none; opacity: 0; }
-        .orb-found .orb-core { background: var(--marigold); transform: scale(2.2); box-shadow: 0 0 14px var(--marigold); }
-        .clue {
-            margin: 1.8rem 0 0;
-            font-family: var(--serif); font-size: clamp(1rem, 2vw, 1.15rem); font-style: italic; line-height: 1.6;
-            animation: decrypt 0.9s ease-out both;
-        }
-        @keyframes decrypt {
-            from { opacity: 0; filter: blur(8px); letter-spacing: 0.2em; }
-            to { opacity: 1; filter: blur(0); letter-spacing: normal; }
-        }
-
-        /* ---------- secret overlay ---------- */
-        .secret {
-            position: fixed; inset: 0; z-index: 10;
-            display: flex; align-items: center; justify-content: center; padding: 1.5rem;
-            background: rgba(5, 4, 8, 0.82); backdrop-filter: blur(10px);
-            animation: fade 0.4s ease-out both;
-        }
+        [hidden] { display: none !important; }
+        button { font: inherit; }
+        @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
         @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-        .secret-card {
-            max-width: 30rem; padding: 2.5rem 2rem; text-align: center;
-            border: 1px solid rgba(255, 200, 87, 0.35); border-radius: 18px;
-            background: linear-gradient(160deg, rgba(255, 145, 77, 0.12), rgba(20, 16, 28, 0.9));
-            animation: rise 0.5s ease-out both;
-        }
-        .secret-eyebrow {
-            margin: 0 0 1rem;
-            font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
-            color: var(--saffron);
-        }
-        .secret-text { margin: 0 0 0.8rem; font-family: var(--serif); font-size: 2.2rem; font-style: italic; color: var(--marigold); }
-        .secret-sub { margin: 0 0 1.8rem; line-height: 1.6; color: var(--muted); }
-        .secret-close {
-            padding: 0.75rem 1.4rem;
-            border: 1px solid var(--saffron); border-radius: 999px; background: transparent;
-            color: var(--paper); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em;
-            cursor: pointer; transition: background 0.25s;
-        }
-        .secret-close:hover, .secret-close:focus-visible { background: rgba(255, 145, 77, 0.2); outline: none; }
-
-        /* ---------- idea CTA ---------- */
-        .idea-cta {
-            margin-top: 2.8rem;
-            display: inline-flex; align-items: center; gap: 0.7rem;
-            padding: 0.85rem 1.5rem;
-            border: 1px solid rgba(255, 200, 87, 0.5); border-radius: 999px;
-            background: linear-gradient(120deg, rgba(255, 145, 77, 0.16), rgba(255, 200, 87, 0.06));
-            color: var(--paper); font-family: var(--sans); font-size: 0.95rem;
-            cursor: pointer; transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
-        }
-        .idea-cta:hover, .idea-cta:focus-visible {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px -10px rgba(255, 145, 77, 0.6);
-            outline: none;
-        }
-        .idea-cta .arrow { color: var(--marigold); transition: transform 0.25s; }
-        .idea-cta:hover .arrow { transform: translateX(4px); }
-
-        .visitors {
-            margin: 1.2rem 0 0;
-            font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
-            color: var(--muted);
-        }
-        .visitors b { color: var(--marigold); font-weight: 600; }
-
-        /* ---------- idea modal ---------- */
-        .sheet {
-            position: fixed; inset: 0; z-index: 9;
-            display: flex; align-items: center; justify-content: center;
-            padding: calc(1rem + env(safe-area-inset-top, 0px)) 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
-            background: rgba(5, 4, 8, 0.8); backdrop-filter: blur(10px);
-            animation: fade 0.3s ease-out both;
-            overflow-y: auto;
-        }
-        .sheet-card {
-            position: relative;
-            width: min(32rem, 100%);
-            padding: 2.2rem clamp(1.2rem, 4vw, 2.2rem) 2rem;
-            text-align: left;
-            border: 1px solid rgba(255, 200, 87, 0.3); border-radius: 20px;
-            background: linear-gradient(165deg, rgba(255, 145, 77, 0.1), rgba(18, 14, 26, 0.96) 45%);
-            color: var(--paper);
-            animation: rise 0.45s ease-out both;
-        }
-        .sheet-x {
-            position: absolute; top: 0.9rem; right: 0.9rem;
-            width: 36px; height: 36px; border-radius: 50%;
-            border: 1px solid var(--faint); background: transparent; color: var(--muted);
-            font-size: 1.1rem; cursor: pointer;
-        }
-        .sheet-x:hover, .sheet-x:focus-visible { color: var(--paper); border-color: var(--saffron); outline: none; }
-        .sheet h2 {
-            margin: 0 0 0.4rem;
-            font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(1.6rem, 5vw, 2rem);
-            color: var(--marigold);
-        }
-        .sheet-lead { margin: 0 0 1.6rem; color: var(--muted); line-height: 1.55; }
-        .field { display: block; margin-bottom: 1rem; }
-        .field span {
-            display: block; margin-bottom: 0.4rem;
-            font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase;
-            color: var(--muted);
-        }
-        .field input, .field textarea {
-            width: 100%;
-            padding: 0.8rem 0.9rem;
-            border: 1px solid var(--faint); border-radius: 12px;
-            background: rgba(255, 255, 255, 0.04);
-            color: var(--paper); font: inherit; font-size: 1rem;
-            transition: border-color 0.2s, background 0.2s;
-        }
-        .field textarea { min-height: 7.5rem; resize: vertical; line-height: 1.5; }
-        .field input::placeholder, .field textarea::placeholder { color: rgba(255, 244, 230, 0.35); }
-        .field input:focus, .field textarea:focus { outline: none; border-color: var(--saffron); background: rgba(255, 145, 77, 0.06); }
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 0.9rem; }
-        .count { float: right; letter-spacing: 0.05em; }
-        .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-        .fineprint { margin: 0.2rem 0 1.4rem; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
-        .submit {
-            width: 100%;
-            padding: 0.95rem 1rem;
-            border: 0; border-radius: 12px;
-            background: linear-gradient(90deg, var(--saffron), var(--marigold));
-            color: #1a1208; font-family: var(--sans); font-size: 1rem; font-weight: 600;
-            cursor: pointer; transition: filter 0.2s, transform 0.2s;
-        }
-        .submit:hover, .submit:focus-visible { filter: brightness(1.08); transform: translateY(-1px); outline: none; }
-        .submit[disabled] { opacity: 0.6; cursor: progress; transform: none; }
-        .form-error { margin: 0.8rem 0 0; font-size: 0.85rem; color: #ffb4a2; }
-        /* badge hidden — Google allows this when the disclosure text below is shown */
-        .grecaptcha-badge { visibility: hidden; }
-        .recaptcha-note { margin: 1rem 0 0; font-size: 0.68rem; line-height: 1.5; color: rgba(255, 244, 230, 0.4); text-align: center; }
-        .recaptcha-note a { color: var(--muted); }
-        .thanks { text-align: center; padding: 1rem 0 0.5rem; }
-        .thanks-emoji { font-size: 3rem; line-height: 1; animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-        .thanks h2 { margin-top: 1rem; }
         @keyframes pop { from { transform: scale(0.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* ---------- signature ---------- */
-        .signature {
-            display: inline-flex; flex-direction: column; align-items: center; gap: 0.25rem;
-            text-transform: none; letter-spacing: normal;
+        .page {
+            max-width: 42rem; margin: 0 auto;
+            padding: calc(1rem + env(safe-area-inset-top, 0px)) 1rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            min-height: 100vh; min-height: 100dvh;
         }
-        .signature-kicker {
-            font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
-            color: var(--muted);
+        .mantra {
+            margin: 0.4rem 0 0.4rem;
+            font-family: var(--deva); font-size: clamp(1.05rem, 2.8vw, 1.3rem); letter-spacing: 0.06em;
+            color: var(--marigold);
         }
-        .signature-name {
+
+        /* ---------- controls ---------- */
+        .controls {
+            position: fixed; z-index: 6;
+            top: calc(0.8rem + env(safe-area-inset-top, 0px)); right: 0.8rem;
+        }
+        .controls button {
+            padding: 0.45rem 0.85rem; border-radius: 999px;
+            border: 1px solid rgba(255, 244, 230, 0.2); background: rgba(13, 4, 6, 0.6);
+            color: var(--muted); font: 0.72rem var(--mono); letter-spacing: 0.06em;
+            cursor: pointer; backdrop-filter: blur(6px);
+        }
+        .controls button:hover, .controls button:focus-visible { color: var(--paper); border-color: var(--saffron); outline: none; }
+
+        /* ---------- gate: the moment before darshan ---------- */
+        .gate {
+            flex: 1; width: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 2rem 0;
+            transition: opacity 0.7s, transform 0.7s;
+        }
+        .gate.leaving { opacity: 0; transform: scale(0.97); }
+        .gate .mantra { animation: rise 1s both; }
+        .gate h1 {
+            margin: 0.3rem 0 0.6rem;
+            font-family: var(--serif); font-style: italic; font-weight: 400;
+            font-size: clamp(2.6rem, 9vw, 4.2rem); line-height: 1.05;
+            background: linear-gradient(180deg, #fff6dc, var(--marigold) 60%, var(--saffron));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            animation: rise 1s 0.15s both;
+        }
+        .gate-sub { margin: 0 0 2rem; max-width: 26rem; color: var(--muted); line-height: 1.6; animation: rise 1s 0.3s both; }
+        .gate-door {
             position: relative;
-            font-family: var(--serif); font-style: italic; font-size: 1.35rem;
+            width: min(15rem, 62vw); aspect-ratio: 3 / 4;
+            margin-bottom: 2rem;
+            border-radius: 50% 50% 10px 10px / 32% 32% 10px 10px;
+            border: 2px solid rgba(233, 180, 76, 0.7);
+            box-shadow: 0 0 0 6px rgba(233, 180, 76, 0.12), 0 0 60px rgba(255, 140, 50, 0.35);
+            overflow: hidden;
+            animation: rise 1.1s 0.45s both;
+        }
+        .gate-door::before, .gate-door::after {
+            content: ''; position: absolute; top: 0; bottom: 0; width: 50%;
+            background:
+                linear-gradient(90deg, rgba(0, 0, 0, 0.35), transparent 30%, rgba(0, 0, 0, 0.25) 60%, transparent),
+                repeating-linear-gradient(90deg, #8e0d1f 0 14px, #b3142b 14px 22px, #7a0b1a 22px 30px);
+        }
+        .gate-door::before { left: 0; border-right: 1px solid rgba(233, 180, 76, 0.6); }
+        .gate-door::after { right: 0; border-left: 1px solid rgba(233, 180, 76, 0.6); }
+        .gate-door span {
+            position: absolute; inset: 0; z-index: 1;
+            display: grid; place-items: center;
+            font-family: var(--deva); font-size: clamp(3.5rem, 16vw, 5rem);
+            color: var(--marigold); text-shadow: 0 0 24px rgba(255, 200, 87, 0.8);
+        }
+        .start {
+            padding: 1.05rem 2.2rem; border: 0; border-radius: 999px;
+            background: linear-gradient(90deg, var(--saffron), var(--marigold));
+            color: #1a1208; font-weight: 700; font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 12px 32px -12px rgba(255, 145, 77, 0.95);
+            animation: rise 1s 0.6s both, glowPulse 2.8s 2s ease-in-out infinite;
+            transition: transform 0.2s, filter 0.2s;
+        }
+        .start:hover, .start:focus-visible { transform: translateY(-2px) scale(1.02); filter: brightness(1.07); outline: none; }
+        .start { display: inline-flex; align-items: center; gap: 0.7rem; padding-left: 0.7rem; }
+        /* dark disc so the emoji doesn't melt into the orange button */
+        .start-ico {
+            display: grid; place-items: center;
+            width: 2.3rem; height: 2.3rem; border-radius: 50%;
+            background: #3a0d12; box-shadow: inset 0 0 0 1px rgba(255, 200, 87, 0.5);
+            font-size: 1.2rem; line-height: 1;
+        }
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 12px 32px -12px rgba(255, 145, 77, 0.95), 0 0 0 0 rgba(255, 200, 87, 0.45); }
+            50% { box-shadow: 0 12px 32px -12px rgba(255, 145, 77, 0.95), 0 0 0 14px rgba(255, 200, 87, 0); }
+        }
+        .gate-count { margin: 1rem 0 0; font-size: 0.9rem; color: var(--paper); animation: rise 1s 0.7s both; }
+        .gate-count b { color: var(--marigold); }
+        .gate-note { margin: 1.1rem 0 0; font-size: 0.8rem; color: var(--muted); animation: rise 1s 0.75s both; }
+
+        /* ---------- temple ---------- */
+        .temple { width: 100%; display: flex; flex-direction: column; align-items: center; animation: fade 0.8s both; }
+        .mandap {
+            position: relative;
+            width: min(24rem, 88vw);
+            margin: 2.2rem 0 1.4rem;
+        }
+        .toran { position: absolute; left: -6%; right: -6%; top: -2.6rem; width: 112%; height: 4.2rem; z-index: 4; overflow: visible; }
+        .hang-bell {
+            position: absolute; top: -1.2rem; z-index: 4;
+            font-size: 1.7rem; transform-origin: 50% 0;
+            filter: drop-shadow(0 0 8px rgba(255, 200, 87, 0.5));
+        }
+        .hang-bell::before {
+            content: ''; position: absolute; left: 50%; top: -1.4rem; width: 1px; height: 1.5rem;
+            background: rgba(233, 180, 76, 0.7);
+        }
+        .hang-bell.l { left: -0.4rem; }
+        .hang-bell.r { right: -0.4rem; }
+        .hang-bell.ring { animation: swing 1.2s ease-out; }
+        @keyframes swing {
+            15% { transform: rotate(24deg); } 35% { transform: rotate(-18deg); }
+            55% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0); }
+        }
+
+        .arch {
+            position: relative;
+            aspect-ratio: 755 / 1007;
+            border-radius: 50% 50% 14px 14px / 26% 26% 14px 14px;
+            overflow: hidden;
+            border: 3px solid var(--gold);
+            box-shadow:
+                0 0 0 7px rgba(233, 180, 76, 0.14),
+                0 0 0 8px rgba(233, 180, 76, 0.4),
+                0 0 70px rgba(255, 150, 60, 0.45);
+            background: #2a0d0d;
+            transition: box-shadow 1s;
+        }
+        .arch img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .arch .glow {
+            position: absolute; inset: 0; pointer-events: none;
+            background: radial-gradient(ellipse 60% 45% at 50% 38%, rgba(255, 210, 120, 0.0), transparent 70%);
+            transition: background 1s;
+            mix-blend-mode: screen;
+        }
+        .arch.lit { box-shadow: 0 0 0 7px rgba(233, 180, 76, 0.2), 0 0 0 8px rgba(233, 180, 76, 0.6), 0 0 110px rgba(255, 170, 70, 0.75); }
+        .arch.lit .glow { background: radial-gradient(ellipse 60% 45% at 50% 38%, rgba(255, 210, 120, 0.4), transparent 70%); }
+
+        .curtain {
+            position: absolute; top: 0; bottom: 0; width: 51%; z-index: 3;
+            background:
+                linear-gradient(90deg, rgba(0, 0, 0, 0.35), transparent 30%, rgba(0, 0, 0, 0.25) 60%, transparent),
+                repeating-linear-gradient(90deg, #8e0d1f 0 16px, #b3142b 16px 26px, #7a0b1a 26px 36px);
+            transition: transform 2.4s cubic-bezier(0.65, 0, 0.25, 1);
+        }
+        .curtain.l { left: 0; border-right: 2px solid var(--gold); }
+        .curtain.r { right: 0; border-left: 2px solid var(--gold); }
+        .arch.open .curtain.l { transform: translateX(-102%); }
+        .arch.open .curtain.r { transform: translateX(102%); }
+
+        /* aarti thali circling Bappa */
+        .orbit { position: absolute; inset: 8% 6% 18%; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 0.5s; }
+        .orbit.on { opacity: 1; animation: spin 3.2s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .thali {
+            position: absolute; left: 50%; top: 0;
+            width: 4.2rem; height: 1.3rem;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(ellipse at 50% 35%, #ffe7a3, #d9a33a 55%, #9c6a1a);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 190, 90, 0.9);
+        }
+        .orbit.on .thali { animation: counterSpin 3.2s linear infinite; }
+        @keyframes counterSpin { from { transform: translate(-50%, -50%) rotate(0); } to { transform: translate(-50%, -50%) rotate(-360deg); } }
+        .thali .flame { left: 50%; top: -0.9rem; }
+
+        .flame {
+            position: absolute;
+            width: 0.7rem; height: 1.15rem;
+            margin-left: -0.35rem;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            background: radial-gradient(ellipse at 50% 70%, #fff7cf 0 20%, #ffd166 40%, #ff8c1a 70%, rgba(255, 90, 0, 0) 100%);
+            filter: drop-shadow(0 0 6px rgba(255, 170, 60, 0.95));
+            transform-origin: 50% 100%;
+            animation: flicker 0.18s ease-in-out infinite alternate;
+        }
+        @keyframes flicker {
+            from { transform: scaleY(1) skewX(-2deg); opacity: 0.95; }
+            to { transform: scaleY(1.12) skewX(3deg); opacity: 1; }
+        }
+
+        .mannat-note {
+            position: absolute; left: 50%; top: 45%; z-index: 2;
+            max-width: 80%;
+            padding: 0.4rem 0.7rem; border-radius: 10px;
+            background: rgba(255, 244, 230, 0.92); color: #3a1406;
+            font: 600 0.85rem var(--sans);
+            transform: translate(-50%, -50%);
+            transition: left 1.6s cubic-bezier(0.5, 0, 0.3, 1), top 1.6s cubic-bezier(0.5, 0, 0.3, 1), transform 1.6s, opacity 1.6s;
+        }
+        .mannat-note.go { left: 76%; top: 91%; transform: translate(-50%, -50%) scale(0.08); opacity: 0; }
+
+        /* diyas along the base */
+        .diyas {
+            position: relative; z-index: 4;
+            display: flex; justify-content: space-between;
+            margin: -0.9rem 1.2rem 0;
+        }
+        .diya { position: relative; width: 2.2rem; height: 1.1rem; }
+        .diya::before {
+            content: ''; position: absolute; inset: 0.25rem 0 0;
+            border-radius: 0 0 50% 50% / 0 0 100% 100%;
+            background: linear-gradient(180deg, #c7642c, #7b3413);
+            box-shadow: inset 0 3px 0 #e58a4c, 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .diya .flame { left: 50%; top: -0.95rem; }
+        .diya:nth-child(2) .flame { animation-duration: 0.22s; }
+        .diya:nth-child(3) .flame { animation-duration: 0.15s; }
+        .diya:nth-child(4) .flame { animation-duration: 0.2s; }
+
+        /* agarbatti smoke */
+        .smoke { position: absolute; bottom: 0.4rem; z-index: 1; width: 2rem; height: 60%; pointer-events: none; }
+        .smoke.l { left: -1.6rem; }
+        .smoke.r { right: -1.6rem; }
+        .smoke i {
+            position: absolute; bottom: 0; left: 40%;
+            width: 1rem; height: 2.6rem; border-radius: 50%;
+            background: rgba(255, 244, 230, 0.16); filter: blur(6px);
+            animation: smoke 7s linear infinite;
+        }
+        .smoke i:nth-child(2) { animation-delay: 2.3s; }
+        .smoke i:nth-child(3) { animation-delay: 4.6s; }
+        @keyframes smoke {
+            0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+            15% { opacity: 1; }
+            50% { transform: translate(10px, -140%) scale(1.3); }
+            100% { transform: translate(-8px, -300%) scale(2); opacity: 0; }
+        }
+
+        .bhog { display: flex; justify-content: center; gap: 0.2rem; min-height: 1.6rem; margin-top: 0.5rem; }
+        .modak-ico { width: 1.6rem; height: 1.75rem; }
+        .bhog .modak-ico { width: 1.35rem; height: 1.5rem; animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+        .feedback { min-height: 1.5em; margin: 0.6rem 0 0; font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--marigold); }
+
+        /* ---------- aarti lyrics ---------- */
+        .lyrics { min-height: 4.2rem; margin: 0.4rem 0 0.2rem; }
+        .lyrics .dev { margin: 0; font-family: var(--deva); font-size: clamp(1.15rem, 3.6vw, 1.45rem); color: var(--paper); text-shadow: 0 0 18px rgba(255, 170, 70, 0.5); }
+        .lyrics .rom { margin: 0.25rem 0 0; font-size: 0.85rem; color: var(--muted); font-style: italic; }
+        .lyrics .line { animation: rise 0.6s both; }
+        .lyrics .line .rom + .dev { margin-top: 0.7rem; }
+        /* smallest player YouTube allows (200px tall), framed like part of the mandap */
+        .yt-wrap {
+            width: min(22.5rem, 100%); min-width: 200px; aspect-ratio: 16 / 9; min-height: 200px; margin: 0 auto;
+            border-radius: 14px; overflow: hidden; background: #000;
+            border: 1px solid rgba(233, 180, 76, 0.55);
+            box-shadow: 0 12px 40px -12px rgba(255, 150, 60, 0.55);
+            animation: rise 0.5s both;
+        }
+        .yt-wrap iframe, .yt-wrap > div { display: block; width: 100%; height: 100%; border: 0; }
+        .yt-note { margin: 0.5rem 0 0; font-size: 0.7rem; color: var(--muted); }
+        .aarti-stop {
+            margin-top: 1rem; padding: 0.6rem 1.1rem; border-radius: 999px;
+            border: 1px solid rgba(255, 200, 87, 0.5); background: rgba(255, 200, 87, 0.1);
+            color: var(--paper); font-weight: 600; cursor: pointer;
+        }
+
+        /* ---------- seva ---------- */
+        .seva {
+            display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.5rem;
+            width: 100%; max-width: 32rem; margin-top: 0.8rem;
+        }
+        .s-btn {
+            position: relative;
+            display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+            padding: 0.75rem 0.2rem;
+            border: 1px solid rgba(255, 200, 87, 0.3); border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04); color: var(--paper);
+            font-weight: 600; font-size: 0.8rem;
+            cursor: pointer; transition: transform 0.2s, background 0.2s, border-color 0.2s;
+        }
+        .s-btn:hover, .s-btn:focus-visible { transform: translateY(-2px); background: rgba(255, 145, 77, 0.14); border-color: var(--saffron); outline: none; }
+        .s-btn[disabled] { cursor: progress; opacity: 0.65; transform: none; }
+        .s-btn.done { border-color: var(--marigold); background: rgba(255, 200, 87, 0.14); }
+        .s-btn.done::after { content: '✓'; position: absolute; top: 0.25rem; right: 0.45rem; font-size: 0.72rem; color: var(--marigold); }
+        .s-ico { height: 1.8rem; display: grid; place-items: center; font-size: 1.5rem; line-height: 1; }
+        .progress { margin: 0.7rem 0 0; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+
+        .mannat {
+            width: 100%; max-width: 30rem; margin-top: 1rem;
+            padding: 1rem; border-radius: 16px;
+            border: 1px solid rgba(255, 200, 87, 0.3); background: rgba(255, 255, 255, 0.04);
+            animation: rise 0.4s both;
+        }
+        .mannat label { display: block; margin-bottom: 0.6rem; font-weight: 600; }
+        .mannat-row { display: flex; flex-direction: column; gap: 0.5rem; }
+        .mannat textarea {
+            width: 100%; min-width: 0; resize: none;
+            padding: 0.7rem 0.9rem; border-radius: 12px; line-height: 1.45;
+            border: 1px solid var(--faint); background: rgba(0, 0, 0, 0.25);
+            color: var(--paper); font: inherit;
+        }
+        .mannat textarea:focus { outline: none; border-color: var(--saffron); }
+        .mannat button {
+            padding: 0.65rem 1rem; border: 0; border-radius: 12px;
+            background: linear-gradient(90deg, var(--saffron), var(--marigold)); color: #1a1208; font-weight: 700;
+            cursor: pointer;
+        }
+        .mannat small { display: block; margin-top: 0.55rem; color: var(--muted); font-size: 0.75rem; }
+
+        /* ---------- after darshan ---------- */
+        .done {
+            width: 100%; max-width: 30rem; margin-top: 1.4rem;
+            padding: 1.4rem 1.2rem; border-radius: 18px;
+            border: 1px solid rgba(255, 200, 87, 0.4);
+            background: linear-gradient(160deg, rgba(255, 145, 77, 0.16), rgba(40, 10, 14, 0.6));
+            animation: rise 0.6s both;
+        }
+        .done h2 { margin: 0 0 0.3rem; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.8rem; color: var(--marigold); }
+        .done p { margin: 0 0 1rem; color: var(--muted); line-height: 1.55; }
+        .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
+        .btn-primary, .btn-share {
+            padding: 0.85rem 1.3rem; border-radius: 999px;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer; text-decoration: none;
+            transition: transform 0.2s, filter 0.2s;
+        }
+        .btn-primary { border: 0; background: linear-gradient(90deg, var(--saffron), var(--marigold)); color: #1a1208; }
+        .btn-share { border: 1px solid rgba(37, 211, 102, 0.6); background: rgba(37, 211, 102, 0.1); color: #c9f7d9; }
+        .btn-primary:hover, .btn-share:hover, .btn-primary:focus-visible, .btn-share:focus-visible { transform: translateY(-2px); filter: brightness(1.08); outline: none; }
+        .prasad { margin: 1rem 0 0 !important; font-family: var(--serif); font-style: italic; color: var(--paper) !important; animation: rise 0.5s both; }
+        .prasad .modak-ico { width: 2.6rem; height: 2.85rem; display: block; margin: 0 auto 0.4rem; animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+        .stat { margin: 0.8rem 0 0 !important; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; }
+        .stat b { color: var(--marigold); }
+
+        .morya {
+            margin-top: 1.8rem;
+            padding: 1rem 2rem; border: 0; border-radius: 999px;
+            background: linear-gradient(90deg, var(--kumkum), #ff6a3d 55%, #ffb347);
+            color: #fff; font-weight: 700; font-size: clamp(1.05rem, 3vw, 1.25rem);
+            cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+            box-shadow: 0 10px 30px -12px rgba(255, 90, 50, 0.9);
+            transition: transform 0.12s, filter 0.2s;
+        }
+        .morya:hover, .morya:focus-visible { filter: brightness(1.08); outline: none; }
+        .morya:active { transform: scale(0.95); }
+        .reply { min-height: 1.4em; margin: 0.7rem 0 0; font-weight: 600; color: #ffd9a0; }
+        .reply.pop { animation: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+        .count { margin: 0.35rem 0 0; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+        .count b { color: var(--marigold); font-variant-numeric: tabular-nums; }
+
+        /* ---------- footer / signature ---------- */
+        .foot { margin-top: auto; padding-top: 3rem; display: flex; flex-direction: column; align-items: center; gap: 0.9rem; }
+        .signature { display: inline-flex; flex-direction: column; align-items: center; gap: 0.25rem; }
+        .signature-kicker { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+        .signature-name {
+            font-family: var(--serif); font-style: italic; font-size: 1.35rem; padding: 0 0.2rem 0.1rem;
             background: linear-gradient(90deg, var(--paper), var(--marigold) 60%, var(--saffron));
             -webkit-background-clip: text; background-clip: text; color: transparent;
-            padding: 0 0.2rem 0.1rem;
         }
-        /* thin rule that opens from the middle, with a small diamond resting on it */
-        .flourish {
-            position: relative;
-            display: block;
-            width: 100%;
-            height: 7px;
-            transform: scaleX(0);
-            animation: openRule 1.1s 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
+        .flourish { position: relative; display: block; width: 100%; height: 7px; }
         .flourish::before {
-            content: '';
-            position: absolute; left: 0; right: 0; top: 3px; height: 1px;
+            content: ''; position: absolute; left: 0; right: 0; top: 3px; height: 1px;
             background: linear-gradient(90deg, transparent, rgba(255, 145, 77, 0.85) 25%, rgba(255, 200, 87, 0.85) 75%, transparent);
         }
         .flourish::after {
-            content: '';
-            position: absolute; left: 50%; top: 0;
-            width: 6px; height: 6px; margin-left: -3px;
-            background: var(--marigold);
-            box-shadow: 0 0 8px rgba(255, 200, 87, 0.7);
-            transform: rotate(45deg) scale(0);
-            animation: gem 0.5s 2.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            content: ''; position: absolute; left: 50%; top: 0; width: 6px; height: 6px; margin-left: -3px;
+            background: var(--marigold); box-shadow: 0 0 8px rgba(255, 200, 87, 0.7); transform: rotate(45deg);
         }
-        @keyframes openRule { to { transform: scaleX(1); } }
-        @keyframes gem { to { transform: rotate(45deg) scale(1); } }
-        .signature:hover .flourish::after, .signature:focus-within .flourish::after {
-            animation: gemSpin 1.6s linear infinite;
-        }
-        @keyframes gemSpin {
-            from { transform: rotate(45deg) scale(1); }
-            to { transform: rotate(405deg) scale(1); }
-        }
-        .signature-roles {
-            font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
-            color: var(--muted);
-            max-height: 0; opacity: 0; overflow: hidden;
-            transition: max-height 0.35s, opacity 0.35s;
-        }
-        .signature:hover .signature-roles, .signature:focus-within .signature-roles { max-height: 1.2rem; opacity: 1; }
+        .credit { margin: 0; font-size: 0.68rem; color: rgba(255, 244, 230, 0.4); }
+        .credit a { color: inherit; }
 
-        @media (max-width: 640px) {
-            .footer { flex-direction: column; justify-content: center; text-align: center; }
-            .signature { order: -1; margin-bottom: 0.4rem; }
-            .signature-roles { max-height: 1.2rem; opacity: 1; }
+        /* ---------- petals ---------- */
+        .petals { position: fixed; inset: 0; z-index: 5; pointer-events: none; overflow: hidden; }
+        .petal {
+            position: absolute; top: -6vh;
+            width: var(--s); height: calc(var(--s) * 1.35);
+            border-radius: 70% 0 70% 0; background: var(--c);
+            box-shadow: inset -2px -2px 4px rgba(120, 40, 0, 0.35);
+            animation: fall var(--d) cubic-bezier(0.3, 0.1, 0.6, 1) forwards;
         }
-        @media (max-width: 480px) {
-            .title { letter-spacing: 0.02em; }
-            .coords { display: none; }
-            .row { grid-template-columns: 1fr; }
+        @keyframes fall { to { transform: translate(var(--x), 112vh) rotate(var(--r)); } }
+        .spark {
+            position: absolute; width: var(--s); height: calc(var(--s) * 1.35);
+            border-radius: 70% 0 70% 0; background: var(--c);
+            animation: burst 0.9s ease-out forwards;
+        }
+        @keyframes burst { to { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; } }
+
+
+        /* ---------- three-part temple: seva | Bappa | aarti & jaikaara ---------- */
+        .t-center, .t-left, .t-right { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .rail-title {
+            margin: 1.4rem 0 0.2rem;
+            font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase;
+            color: var(--marigold); opacity: 0.85;
+        }
+        .t-left .rail-title { display: none; }
+        .t-right .rail-title { margin-top: 1.6rem; }
+        .t-right .morya { margin-top: 0.5rem; }
+
+        /* phones & tablets: the aarti floats at the bottom, so nothing on the page jumps */
+        @media (max-width: 959px) {
+            .lyrics:not([hidden]) {
+                position: fixed; z-index: 7;
+                left: 50%; bottom: calc(0.7rem + env(safe-area-inset-bottom, 0px));
+                transform: translateX(-50%);
+                width: min(24rem, 94vw); min-height: 0; margin: 0;
+                padding: 0.8rem;
+                border-radius: 18px;
+                border: 1px solid rgba(233, 180, 76, 0.45);
+                background: rgba(20, 5, 7, 0.94);
+                box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 150, 60, 0.2);
+                backdrop-filter: blur(8px);
+            }
+            .lyrics .aarti-stop { margin-top: 0.7rem; }
+        }
+
+        /* laptops & desktops: everything on one screen */
+        @media (min-width: 960px) {
+            .page { max-width: 78rem; }
+            .temple {
+                display: grid;
+                grid-template-columns: 14rem minmax(0, 1fr) 24rem;
+                grid-template-areas: 'left center right';
+                align-items: center;
+                column-gap: clamp(1.5rem, 3vw, 3rem);
+                min-height: calc(100dvh - 9rem);
+            }
+            .t-center { grid-area: center; }
+            .t-left { grid-area: left; }
+            .t-right { grid-area: right; }
+            /* size Bappa by the screen height so the whole mandap fits without scrolling */
+            .mandap { width: min(23rem, calc((100dvh - 14rem) / 1.42)); margin: 2.4rem 0 0.6rem; }
+
+            .t-left .rail-title { display: block; margin-top: 0; }
+            .t-left .seva { grid-template-columns: 1fr; gap: 0.55rem; margin-top: 0.6rem; }
+            .t-left .s-btn {
+                flex-direction: row; justify-content: flex-start; gap: 0.85rem;
+                padding: 0.7rem 1rem; font-size: 0.95rem; text-align: left;
+            }
+            .t-left .s-btn:hover, .t-left .s-btn:focus-visible { transform: translateX(3px); }
+            .t-left .s-btn.done::after { top: 50%; right: 0.9rem; transform: translateY(-50%); font-size: 0.85rem; }
+            .t-left .s-ico { width: 1.8rem; }
+            .t-left .progress { line-height: 1.7; }
+            .t-left .mannat { padding: 0.8rem; }
+            .t-left .mannat button { padding: 0.65rem; }
+
+            .t-right .lyrics { margin: 0 0 0.4rem; min-height: 0; }
+            .t-right .done { margin-top: 0; }
+            .t-right .rail-title { margin-top: 1.2rem; }
+        }
+
+        @media (max-width: 560px) {
+            /* keep the sound button clear of the mantra */
+            .page { padding-top: calc(3.2rem + env(safe-area-inset-top, 0px)); }
+        }
+        @media (max-width: 420px) {
+            .seva { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         }
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
@@ -422,452 +521,125 @@
     </style>
 </head>
 <body>
-    <section class="stage" id="stage">
-        <canvas class="sky" id="sky" aria-hidden="true"></canvas>
-        <div class="grain" aria-hidden="true"></div>
-        <div class="vignette" aria-hidden="true"></div>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="modak" viewBox="0 0 40 44">
+                <path d="M20 2 C 23 10, 36 22, 34 32 C 32 41, 8 41, 6 32 C 4 22, 17 10, 20 2 Z" fill="#fff4dc" stroke="#e9b86a" stroke-width="1.5" />
+                <path d="M20 4 C 17 16, 11 26, 11 37 M20 4 C 23 16, 29 26, 29 37 M20 4 L 20 39" fill="none" stroke="#e9b86a" stroke-width="1.2" stroke-linecap="round" />
+            </symbol>
+            <radialGradient id="genda" cx="45%" cy="40%" r="60%">
+                <stop offset="0" stop-color="#ffe08a" />
+                <stop offset="0.55" stop-color="#ffab1f" />
+                <stop offset="1" stop-color="#e86a00" />
+            </radialGradient>
+        </defs>
+    </svg>
 
-        <header class="topbar">
-            <span class="mark"><span class="pulse-dot"></span>chaltehai.online</span>
-            <span class="coords">Manzil: ??? · ETA: jald hi</span>
-        </header>
+    <div class="controls">
+        <button type="button" id="soundToggle" aria-pressed="true">🔊 Awaaz on</button>
+    </div>
+    <div class="petals" id="petals" aria-hidden="true"></div>
 
-        <main class="content">
-            <p class="eyebrow">Signal mil gaya hai</p>
-            <h1 class="title" id="title" aria-label="Chalte Hai">CHALTE HAI</h1>
-            <p class="question">…par kahaan?</p>
+    <main class="page">
+        <!-- 1. The gate: a moment of stillness before darshan (and the tap that lets the browser play sound) -->
+        <section class="gate" id="gate">
+            <p class="mantra" lang="sa">॥ श्री गणेशाय नमः ॥</p>
+            <h1>Bappa ke darshan</h1>
+            <p class="gate-sub">Har shubh shuruaat Ganesh Ji se. Aaj line bhi nahi hai — seedha darshan 😄</p>
+            <div class="gate-door" aria-hidden="true"><span>ॐ</span></div>
+            <button class="start" id="startBtn" type="button"><span class="start-ico" aria-hidden="true">🙏</span>Darshan karein</button>
+            <p class="gate-count" id="gateCount" hidden>Ab tak <b></b> bhakt darshan kar chuke hain 🙏</p>
+            <p class="gate-note">🔊 Awaaz on rakhiye — shankh, ghanti aur aarti ke saath</p>
+        </section>
 
-            <p class="teaser" aria-live="polite"><span id="typed"></span><span class="caret"></span></p>
+        <!-- 2. The mandap -->
+        <section class="temple" id="temple" hidden aria-label="Ganpati darshan">
+            <!-- centre: Bappa -->
+            <div class="t-center">
+                <p class="mantra" lang="sa">॥ श्री गणेशाय नमः ॥</p>
+                <div class="mandap">
+                    <svg class="toran" id="toran" viewBox="0 0 400 70" preserveAspectRatio="none" aria-hidden="true"></svg>
+                    <span class="hang-bell l" id="bellL" aria-hidden="true">🔔</span>
+                    <span class="hang-bell r" id="bellR" aria-hidden="true">🔔</span>
+                    <div class="smoke l" aria-hidden="true"><i></i><i></i><i></i></div>
+                    <div class="smoke r" aria-hidden="true"><i></i><i></i><i></i></div>
 
-            <div class="countdown" id="countdown" role="timer" aria-label="Time until launch" hidden></div>
-
-            <div class="loader" id="loader">
-                <div class="loader-row">
-                    <span id="status">Manzil set ho rahi hai</span>
-                    <span class="loader-pct" id="pct">7%</span>
+                    <div class="arch" id="arch">
+                        <img src="ganpati.jpg" alt="Ghar mein virajmaan Ganpati Bappa — gulabi pheta, phoolon ki mala aur aashirwad dete hue" width="755" height="1007" />
+                        <div class="glow" aria-hidden="true"></div>
+                        <div class="orbit" id="orbit" aria-hidden="true"><div class="thali"><span class="flame"></span></div></div>
+                        <div class="curtain l" aria-hidden="true"></div>
+                        <div class="curtain r" aria-hidden="true"></div>
+                    </div>
+                    <div class="diyas" aria-hidden="true">
+                        <span class="diya"><span class="flame"></span></span>
+                        <span class="diya"><span class="flame"></span></span>
+                        <span class="diya"><span class="flame"></span></span>
+                        <span class="diya"><span class="flame"></span></span>
+                        <span class="diya"><span class="flame"></span></span>
+                    </div>
                 </div>
-                <div class="loader-track"><div class="loader-fill" id="fill"></div></div>
+                <div class="bhog" id="bhog" aria-hidden="true"></div>
+                <p class="feedback" id="feedback" aria-live="polite"></p>
             </div>
 
-            <div class="signals">
-                <p class="signals-hint" id="hint">Teen signals chhupe hain. Tap karo, decode karo.</p>
-                <div class="orbs">
-                    <button class="orb" data-id="s1" aria-label="Decode signal 1" aria-pressed="false"><span class="orb-core"></span><span class="orb-num">01</span></button>
-                    <button class="orb" data-id="s2" aria-label="Decode signal 2" aria-pressed="false"><span class="orb-core"></span><span class="orb-num">02</span></button>
-                    <button class="orb" data-id="s3" aria-label="Decode signal 3" aria-pressed="false"><span class="orb-core"></span><span class="orb-num">03</span></button>
+            <!-- left: the seva -->
+            <aside class="t-left">
+                <p class="rail-title">Seva</p>
+                <div class="seva" role="group" aria-label="Seva">
+                    <button class="s-btn" type="button" data-act="ghanti" aria-pressed="false"><span class="s-ico">🔔</span>Ghanti</button>
+                    <button class="s-btn" type="button" data-act="phool" aria-pressed="false"><span class="s-ico">🌼</span>Phool</button>
+                    <button class="s-btn" type="button" data-act="aarti" aria-pressed="false"><span class="s-ico">🪔</span>Aarti</button>
+                    <button class="s-btn" type="button" data-act="modak" aria-pressed="false"><span class="s-ico"><svg class="modak-ico"><use href="#modak" /></svg></span>Bhog</button>
+                    <button class="s-btn" type="button" data-act="mannat" aria-pressed="false"><span class="s-ico">🐭</span>Mannat</button>
                 </div>
-                <p class="clue" id="clue" hidden></p>
-            </div>
+                <p class="progress" id="progress">Ghanti, phool, aarti aur bhog — chaaron seva kijiye</p>
+                <form class="mannat" id="mannatForm" hidden>
+                    <label for="mannatText">Mooshak ke kaan mein apni mannat kahiye 🐭</label>
+                    <div class="mannat-row">
+                        <textarea id="mannatText" rows="2" maxlength="140" autocomplete="off" placeholder="Bappa, meri bas itni si iccha hai…"></textarea>
+                        <button type="submit">Kaho</button>
+                    </div>
+                    <small>Yeh kahin save nahi hoti — sirf aapke aur Bappa ke beech. 🤫</small>
+                </form>
+            </aside>
 
-            <button class="idea-cta" id="ideaOpen" type="button">
-                💡 Tum hote toh kya banate? <span class="arrow">→</span>
-            </button>
-            <p class="visitors" id="visitors" hidden>Ab tak <b id="visitorCount"></b> curious log aa chuke hain</p>
-        </main>
+            <!-- right: aarti, darshan sampann, jaikaara -->
+            <aside class="t-right">
+                <div class="lyrics" id="lyrics" aria-live="polite" hidden></div>
+                <div class="done" id="done" hidden>
+                    <h2>Darshan sampann 🙏</h2>
+                    <p>Bappa ka aashirwad aapke saath hai. Sab mangal ho.</p>
+                    <div class="actions">
+                        <button class="btn-primary" type="button" id="prasadBtn">Prasad lijiye</button>
+                        <a class="btn-share" id="shareBtn" target="_blank" rel="noopener">📲 WhatsApp pe darshan bhejo</a>
+                    </div>
+                    <p class="prasad" id="prasad" hidden><svg class="modak-ico"><use href="#modak" /></svg>Prasad grahan kijiye. Ganpati Bappa sab vighn door karein 🙏</p>
+                    <p class="stat" id="darshanStat" hidden>Ab tak <b></b> bhakton ne yahan darshan kiye</p>
+                </div>
+                <p class="rail-title">Jaikaara</p>
+                <button class="morya" type="button" id="moryaBtn">Ganpati Bappa Morya!</button>
+                <p class="reply" id="moryaReply" aria-live="polite"></p>
+                <p class="count" id="moryaCount"></p>
+                <p class="count" id="darshanLive" hidden>Ab tak <b></b> bhakton ne darshan kiye 🙏</p>
+            </aside>
+        </section>
 
-        <footer class="footer">
-            <span>App nahi. Trip nahi. Jo soch rahe ho, woh bhi nahi.</span>
-            <span class="signature" tabindex="0" aria-label="Designed and built by Vaibhav Sharma">
+        <footer class="foot">
+            <span class="signature" aria-label="Designed and built by Vaibhav Sharma">
                 <span class="signature-kicker">Soch, design &amp; code</span>
                 <span class="signature-name">Vaibhav Sharma</span>
                 <span class="flourish" aria-hidden="true"></span>
-                <span class="signature-roles">chai ☕ se chalne wala dimaag</span>
             </span>
-            <span class="whisper">psst — keyboard pe type karo <em>chalo</em></span>
+            <p class="credit">Ghar ke Bappa · photo: Vaibhav Sharma · Ghanta: the_very_Real_Horst (CC0)</p>
         </footer>
-
-        <!-- Idea box: posts straight to Salesforce Web-to-Lead (works without JS too) -->
-        <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
-            <div class="sheet-card">
-                <button class="sheet-x" id="sheetClose" type="button" aria-label="Band karo">✕</button>
-
-                <form id="ideaForm" method="POST"
-                    action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&amp;orgId=00DjV000003jUL9">
-                    <input type="hidden" name="oid" value="00DjV000003jUL9" />
-                    <input type="hidden" name="retURL" value="https://chaltehai.online/?shukriya=1" />
-                    <input type="hidden" name="lead_source" value="Web" />
-                    <input type="hidden" name="company" value="chaltehai.online" />
-                    <input type="hidden" name="captcha_settings" id="captchaSettings"
-                        value='{"keyname":"chaltehaiVaibhav20252025","fallback":"true","orgId":"00DjV000003jUL9","ts":""}' />
-                    <div id="recaptcha"></div>
-
-                    <h2 id="sheetTitle">Apna idea do</h2>
-                    <p class="sheet-lead">Hum kuch bana rahe hain. Tumhara ek idea shayad iski direction badal de. Koi idea chhota nahi hota.</p>
-
-                    <label class="field">
-                        <span>Tumhara idea <em class="count" id="ideaCount">0/1000</em></span>
-                        <textarea name="description" id="ideaText" maxlength="1000" required
-                            placeholder="Tum hote toh kya banate?"></textarea>
-                    </label>
-
-                    <div class="row">
-                        <label class="field">
-                            <span>Naam (optional)</span>
-                            <input type="text" name="last_name" maxlength="80" autocomplete="name" placeholder="Kaun ho tum?" />
-                        </label>
-                        <label class="field">
-                            <span>Email (optional)</span>
-                            <input type="email" name="email" maxlength="80" autocomplete="email" placeholder="launch pe batayenge" />
-                        </label>
-                    </div>
-
-                    <!-- bots fill this, humans never see it -->
-                    <label class="hp" aria-hidden="true">Website<input type="text" name="website_hp" id="hp" tabindex="-1" autocomplete="off" /></label>
-
-                    <p class="fineprint">Email doge toh launch pe sabse pehle tumhe batayenge. Spam nahi karenge — promise.</p>
-                    <button class="submit" id="ideaSubmit" type="submit">Idea bhejo 🚀</button>
-                    <p class="form-error" id="formError" hidden>Kuch gadbad ho gayi. Ek baar phir try karo?</p>
-                    <p class="recaptcha-note">
-                        Robots se bachne ke liye reCAPTCHA laga hai — Google ki
-                        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> aur
-                        <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms</a> apply hote hain.
-                    </p>
-                </form>
-
-                <div class="thanks" id="thanks" hidden>
-                    <div class="thanks-emoji">🙌</div>
-                    <h2>Shukriya, dost!</h2>
-                    <p class="sheet-lead">Idea mil gaya. Ab tum officially is kahani ka hissa ho.</p>
-                    <button class="submit" id="thanksClose" type="button">Chalo, wapas chalte hain</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="secret" id="secret" role="dialog" aria-modal="true" aria-label="Secret message" hidden>
-            <div class="secret-card">
-                <p class="secret-eyebrow">Yeh tumhe milna nahi chahiye tha</p>
-                <p class="secret-text">Arre, itni jaldi?</p>
-                <p class="secret-sub">Sabr rakho, musafir. Raasta almost ready hai — aur curious logon ki list mein tumhara naam pehle se hai.</p>
-                <button class="secret-close" id="secretClose">Theek hai, wait kar lenge</button>
-            </div>
-        </div>
-    </section>
+    </main>
 
     <script>
         (() => {
-            // ---- Set a launch date to show a countdown instead of the progress bar ----
-            // e.g. '2026-12-31T18:30:00+05:30'. Leave empty for the never-quite-finished loader.
-            const LAUNCH_DATE = '';
-
-            const TITLE = 'CHALTE HAI';
-            const GLYPHS = '█▓▒░<>/\\|{}[]=+*#?!ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            const SECRET_WORD = 'chalo';
-            const TEASERS = [
-                'Har great story do words se shuru hoti hai.',
-                'Bag abhi pack nahi hua. Map ho chuka hai.',
-                'Kya hai, abhi nahi bataayenge. Bas itna jaan lo — it moves.',
-                "Somewhere between 'kal karenge' and 'abhi chalo'.",
-                'Yeh naam tumne sau baar bola hai. Usually, ghar se nikalne se just pehle.',
-                'Un logon ke liye, jinse ek jagah tika nahi jaata.',
-                'Chai ready rakho. Kuch aa raha hai.',
-                'Is baar plan cancel nahi hoga. Promise.'
-            ];
-            const STATUSES = [
-                'Manzil set ho rahi hai',
-                'Chai garam rakhne ki koshish jaari hai',
-                'Kuch cheezein pack ho rahi hain (no spoilers)',
-                'Playlist pe bahas chal rahi hai',
-                'Ghar pe permission li ja rahi hai',
-                'Aage ka raasta check ho raha hai',
-                'Bas thoda sa aur. Sach mein.'
-            ];
-            const CLUES = {
-                s1: "Signal 01 — Shuru hota hai ek sawaal se, jo sab poochte hain par koi theek se answer nahi karta.",
-                s2: 'Signal 02 — Do shabd. Darwaaze pe khade hoke. Chehre pe smile ke saath. Tumne bhi bole hain.',
-                s3: 'Signal 03 — Darwaaza jald khulega. Pehli dastak curious logon ko hi sunai degi.'
-            };
-            const FINAL_CLUE = 'Teeno signals mil gaye. Tum toh detective nikle! Yeh feeling yaad rakhna — sab tumhare liye hi ban raha hai. Chalo, milte hain us paar.';
-
             const $ = (id) => document.getElementById(id);
             const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-            // ---- title decode ----
-            const titleEl = $('title');
-            function decodeTitle() {
-                if (reducedMotion) return;
-                let frame = 0;
-                const total = 40;
-                const id = setInterval(() => {
-                    frame++;
-                    const revealed = Math.floor((frame / total) * TITLE.length);
-                    titleEl.textContent = TITLE.split('')
-                        .map((ch, i) => (ch === ' ' || i < revealed ? ch : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]))
-                        .join('');
-                    if (frame >= total) {
-                        clearInterval(id);
-                        titleEl.textContent = TITLE;
-                        setTimeout(decodeTitle, 14000 + Math.random() * 8000);
-                    }
-                }, 45);
-            }
-            decodeTitle();
-
-            // ---- typewriter ----
-            const typedEl = $('typed');
-            let lineIdx = 0;
-            // hold long enough to actually read the line: ~3.4 words/second, never less than 3.5s
-            const readingTime = (line) => Math.min(9000, Math.max(3500, 1200 + line.length * 65));
-            function typeLine() {
-                const line = TEASERS[lineIdx % TEASERS.length];
-                if (reducedMotion) {
-                    typedEl.textContent = line;
-                    lineIdx++;
-                    setTimeout(typeLine, readingTime(line) + 1000);
-                    return;
-                }
-                let i = 0;
-                const typing = setInterval(() => {
-                    typedEl.textContent = line.slice(0, ++i);
-                    if (i >= line.length) {
-                        clearInterval(typing);
-                        setTimeout(() => eraseLine(line), readingTime(line));
-                    }
-                }, 42);
-            }
-            function eraseLine(line) {
-                let i = line.length;
-                const erasing = setInterval(() => {
-                    i -= 1;
-                    typedEl.textContent = line.slice(0, Math.max(i, 0));
-                    if (i <= 0) {
-                        clearInterval(erasing);
-                        lineIdx++;
-                        setTimeout(typeLine, 600);
-                    }
-                }, 22);
-            }
-            setTimeout(typeLine, 1400);
-
-            // ---- countdown or loader ----
-            const launch = Date.parse(LAUNCH_DATE);
-            if (LAUNCH_DATE && !Number.isNaN(launch)) {
-                $('loader').hidden = true;
-                const cd = $('countdown');
-                cd.hidden = false;
-                const pad = (n) => String(n).padStart(2, '0');
-                const tick = () => {
-                    const s = Math.floor(Math.max(0, launch - Date.now()) / 1000);
-                    const units = [
-                        ['din', Math.floor(s / 86400)],
-                        ['ghante', Math.floor((s % 86400) / 3600)],
-                        ['minute', Math.floor((s % 3600) / 60)],
-                        ['second', s % 60]
-                    ];
-                    cd.innerHTML = units
-                        .map(([label, v]) => `<div class="unit"><span class="unit-value">${pad(v)}</span><span class="unit-label">${label}</span></div>`)
-                        .join('');
-                };
-                tick();
-                setInterval(tick, 1000);
-            } else {
-                let progress = 7;
-                let step = 0;
-                const render = () => {
-                    $('pct').textContent = progress + '%';
-                    $('fill').style.width = progress + '%';
-                    $('status').textContent = STATUSES[step % STATUSES.length];
-                };
-                setInterval(() => {
-                    // creeps toward 99 but never quite gets there
-                    progress = Math.min(99, progress + Math.max(1, Math.round((99 - progress) * 0.12)));
-                    step++;
-                    render();
-                    if (progress >= 99) {
-                        setTimeout(() => { progress = 91; render(); }, 3000);
-                    }
-                }, 3400);
-            }
-
-            // ---- signals ----
-            const found = new Set();
-            const hintEl = $('hint');
-            const clueEl = $('clue');
-            document.querySelectorAll('.orb').forEach((btn, i) => {
-                btn.addEventListener('click', () => {
-                    const id = btn.dataset.id;
-                    found.add(id);
-                    btn.classList.add('orb-found');
-                    btn.setAttribute('aria-pressed', 'true');
-                    btn.setAttribute('aria-label', `Signal ${i + 1} decoded`);
-
-                    const n = found.size;
-                    hintEl.textContent = n < 3 ? `${n}/3 signals decode ho gaye. Rukna mat.` : 'Signal lock complete.';
-
-                    clueEl.textContent = n === 3 ? FINAL_CLUE : CLUES[id];
-                    clueEl.hidden = false;
-                    // restart the decrypt animation
-                    clueEl.style.animation = 'none';
-                    void clueEl.offsetWidth;
-                    clueEl.style.animation = '';
-                });
-            });
-
-            // ---- easter egg ----
-            const secretEl = $('secret');
-            let keyBuffer = '';
-            const closeSecret = () => { secretEl.hidden = true; };
-            window.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    closeSheet();
-                    return closeSecret();
-                }
-                // don't trigger the easter egg while someone is typing their idea
-                if (e.target.closest && e.target.closest('input, textarea')) return;
-                if (!e.key || e.key.length !== 1) return;
-                keyBuffer = (keyBuffer + e.key.toLowerCase()).slice(-SECRET_WORD.length);
-                if (keyBuffer === SECRET_WORD) {
-                    secretEl.hidden = false;
-                    $('secretClose').focus();
-                    keyBuffer = '';
-                }
-            });
-            secretEl.addEventListener('click', (e) => { if (e.target === secretEl) closeSecret(); });
-            $('secretClose').addEventListener('click', closeSecret);
-
-            // ---- idea box (Salesforce Web-to-Lead) ----
-            const sheetEl = $('sheet');
-            const formEl = $('ideaForm');
-            const thanksEl = $('thanks');
-            const ideaText = $('ideaText');
-            const submitBtn = $('ideaSubmit');
-            const errorEl = $('formError');
-            const PROMPTS = [
-                'Tum hote toh kya banate?',
-                'Kaunsi cheez tumhe roz pareshaan karti hai?',
-                "Ek feature jo 'Chalte Hai' mein hona hi chahiye…",
-                'Kal subah uthke kya hona chahiye jo aaj nahi hota?'
-            ];
-            let promptIdx = 0;
-            let promptTimer;
-
-            function openSheet(showThanks) {
-                formEl.hidden = !!showThanks;
-                thanksEl.hidden = !showThanks;
-                errorEl.hidden = true;
-                sheetEl.hidden = false;
-                document.body.style.overflow = 'hidden';
-                if (showThanks) {
-                    $('thanksClose').focus();
-                } else {
-                    loadRecaptcha().catch(() => {});
-                    ideaText.focus();
-                    promptTimer = setInterval(() => {
-                        if (!ideaText.value) ideaText.placeholder = PROMPTS[++promptIdx % PROMPTS.length];
-                    }, 3500);
-                }
-            }
-            function closeSheet() {
-                if (sheetEl.hidden) return;
-                sheetEl.hidden = true;
-                document.body.style.overflow = '';
-                clearInterval(promptTimer);
-                $('ideaOpen').focus();
-            }
-            $('ideaOpen').addEventListener('click', () => openSheet(false));
-            $('sheetClose').addEventListener('click', closeSheet);
-            $('thanksClose').addEventListener('click', closeSheet);
-            sheetEl.addEventListener('click', (e) => { if (e.target === sheetEl) closeSheet(); });
-            ideaText.addEventListener('input', () => {
-                $('ideaCount').textContent = `${ideaText.value.length}/1000`;
-            });
-
-            // ---- invisible reCAPTCHA v2 (loaded the first time the idea box opens) ----
-            const RECAPTCHA_SITE_KEY = '6Lf978AtAAAAAODsTf62Y4MncOAqWVvJZOtMuCDh';
-            let recaptchaReady;
-            let widgetId;
-            let onToken = () => {};
-            let restoreTimer;
-
-            function loadRecaptcha() {
-                if (recaptchaReady) return recaptchaReady;
-                recaptchaReady = new Promise((resolve, reject) => {
-                    window.__onRecaptchaLoad = () => {
-                        widgetId = grecaptcha.render('recaptcha', {
-                            sitekey: RECAPTCHA_SITE_KEY,
-                            size: 'invisible',
-                            theme: 'dark',
-                            callback: (token) => onToken(token),
-                            'expired-callback': () => grecaptcha.reset(widgetId),
-                            'error-callback': () => showError('reCAPTCHA se connect nahi ho paya. Thodi der baad try karo?')
-                        });
-                        resolve();
-                    };
-                    const s = document.createElement('script');
-                    s.src = 'https://www.google.com/recaptcha/api.js?onload=__onRecaptchaLoad&render=explicit';
-                    s.async = true;
-                    s.onerror = () => {
-                        recaptchaReady = null;
-                        reject();
-                    };
-                    document.head.appendChild(s);
-                });
-                return recaptchaReady;
-            }
-
-            function resetButton() {
-                clearTimeout(restoreTimer);
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Idea bhejo 🚀';
-            }
-            function showError(msg) {
-                errorEl.textContent = msg;
-                errorEl.hidden = false;
-                resetButton();
-            }
-
-            async function sendIdea(token) {
-                // Salesforce expects the moment the captcha was solved in captcha_settings.ts
-                const settings = JSON.parse($('captchaSettings').value);
-                settings.ts = JSON.stringify(Date.now());
-                $('captchaSettings').value = JSON.stringify(settings);
-
-                const data = new FormData(formEl);
-                data.delete('website_hp');
-                data.set('g-recaptcha-response', token);
-                try {
-                    // Salesforce replies with a cross-origin redirect we can't read — 'no-cors' just delivers it
-                    await fetch(formEl.action, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(data) });
-                    formEl.reset();
-                    $('ideaCount').textContent = '0/1000';
-                    resetButton();
-                    openSheet(true);
-                } catch (err) {
-                    showError('Kuch gadbad ho gayi. Ek baar phir try karo?');
-                } finally {
-                    grecaptcha.reset(widgetId);
-                }
-            }
-
-            formEl.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!ideaText.value.trim()) return ideaText.focus();
-
-                // honeypot filled = bot; pretend it worked and send nothing
-                if ($('hp').value) return openSheet(true);
-
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Bhej rahe hain…';
-                errorEl.hidden = true;
-                try {
-                    await loadRecaptcha();
-                } catch (err) {
-                    return showError('reCAPTCHA load nahi hua. Ad-blocker band karke phir try karo?');
-                }
-                onToken = sendIdea;
-                // if Google shows a picture puzzle and the visitor closes it, un-freeze the button
-                restoreTimer = setTimeout(resetButton, 20000);
-                grecaptcha.execute(widgetId);
-            });
-
-            // returning from a non-JS form post (retURL = /?shukriya=1)
-            if (new URLSearchParams(location.search).has('shukriya')) {
-                history.replaceState(null, '', location.pathname);
-                openSheet(true);
-            }
-
-            // ---- visitor counter (stored in Salesforce: Site_Visit__c via the ChalteHaiApi site) ----
-            const VISITS_API = 'https://orgfarm-bfdf191497-dev-ed.develop.my.salesforce-sites.com/chaltehaiapi/services/apexrest/visits';
-            const MIN_TO_SHOW = 10; // don't show "Ab tak 2 curious log…" on day one
+            const isLive = /(^|\.)chaltehai\.online$/.test(location.hostname);
             const store = (area, key, value) => {
                 try {
                     if (value === undefined) return window[area].getItem(key);
@@ -876,153 +648,555 @@
                     return null;
                 }
             };
-            (() => {
-                // only real visits on the live domain count; local previews just read the total
-                const isLive = /(^|\.)chaltehai\.online$/.test(location.hostname);
-                const alreadyThisSession = store('sessionStorage', 'ch_visit');
-                const shouldCount = isLive && !alreadyThisSession;
+            const rand = (a, b) => a + Math.random() * (b - a);
+            const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+            // ================= sound (all synthesised — no audio files) =================
+            let soundOn = store('localStorage', 'ch_sound') !== 'off';
+            let ac;
+            const ctx = () => (ac = ac || new (window.AudioContext || window.webkitAudioContext)());
+            function setSoundLabel() {
+                $('soundToggle').textContent = soundOn ? '🔊 Awaaz on' : '🔇 Awaaz off';
+                $('soundToggle').setAttribute('aria-pressed', String(soundOn));
+            }
+            setSoundLabel();
+            $('soundToggle').addEventListener('click', () => {
+                soundOn = !soundOn;
+                store('localStorage', 'ch_sound', soundOn ? 'on' : 'off');
+                setSoundLabel();
+            });
+            const safe = (fn) => (...a) => {
+                if (!soundOn) return;
+                try {
+                    fn(...a);
+                } catch (e) {
+                    /* no audio support */
+                }
+            };
+            // temple ghanta: a real recording of a brass puja bell (CC0). `base` shifts the pitch so repeated
+            // rings sound like different bells; the synthesised bell below is only a fallback.
+            const ghantaMaster = new Audio('ghanta.wav');
+            ghantaMaster.preload = 'auto';
+            const bell = (volume = 0.35, base = 660) => {
+                if (!soundOn) return;
+                const a = ghantaMaster.cloneNode();
+                a.volume = Math.min(1, volume * 2.6);
+                a.preservesPitch = false;
+                a.playbackRate = base / 660;
+                a.play().catch(() => synthBell(volume, base));
+            };
+            const synthBell = safe((volume = 0.35, base = 660) => {
+                const a = ctx(), t = a.currentTime, out = a.createGain();
+                out.gain.value = volume;
+                out.connect(a.destination);
+                [[1, 1], [2.01, 0.5], [2.76, 0.42], [4.07, 0.22], [5.4, 0.12]].forEach(([m, g]) => {
+                    const o = a.createOscillator(), e = a.createGain();
+                    o.frequency.value = base * m;
+                    e.gain.setValueAtTime(0.0001, t);
+                    e.gain.exponentialRampToValueAtTime(g, t + 0.006);
+                    e.gain.exponentialRampToValueAtTime(0.0001, t + 3.2 / (0.5 + m * 0.5));
+                    o.connect(e).connect(out);
+                    o.start(t);
+                    o.stop(t + 3.5);
+                });
+            });
+            // shankh (conch): a breathy horn — sawtooth through a resonant low-pass, with a slow swell and vibrato
+            const shankh = safe((volume = 0.22) => {
+                const a = ctx(), t = a.currentTime, dur = 2.6;
+                const out = a.createGain(), lp = a.createBiquadFilter();
+                lp.type = 'lowpass';
+                lp.frequency.setValueAtTime(500, t);
+                lp.frequency.linearRampToValueAtTime(1300, t + 0.8);
+                lp.Q.value = 6;
+                out.gain.setValueAtTime(0.0001, t);
+                out.gain.exponentialRampToValueAtTime(volume, t + 0.45);
+                out.gain.setValueAtTime(volume, t + dur - 0.7);
+                out.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+                lp.connect(out).connect(a.destination);
+                const vib = a.createOscillator(), vibAmt = a.createGain();
+                vib.frequency.value = 5.2;
+                vibAmt.gain.value = 3;
+                vib.connect(vibAmt);
+                [[1, 1], [2, 0.35], [3, 0.12]].forEach(([m, g]) => {
+                    const o = a.createOscillator(), e = a.createGain();
+                    o.type = 'sawtooth';
+                    o.frequency.setValueAtTime(205 * m, t);
+                    o.frequency.exponentialRampToValueAtTime(233 * m, t + 0.35);
+                    vibAmt.connect(o.frequency);
+                    e.gain.value = g;
+                    o.connect(e).connect(lp);
+                    o.start(t);
+                    o.stop(t + dur);
+                });
+                vib.start(t);
+                vib.stop(t + dur);
+            });
+            let noiseBuf;
+            const noise = (a) => {
+                if (noiseBuf) return noiseBuf;
+                noiseBuf = a.createBuffer(1, a.sampleRate * 0.5, a.sampleRate);
+                const d = noiseBuf.getChannelData(0);
+                for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+                return noiseBuf;
+            };
+            // jhanjh (small cymbals) for the aarti rhythm
+            const jhanjh = safe((volume = 0.12) => {
+                const a = ctx(), t = a.currentTime;
+                const src = a.createBufferSource(), hp = a.createBiquadFilter(), e = a.createGain();
+                src.buffer = noise(a);
+                hp.type = 'highpass';
+                hp.frequency.value = 6000;
+                e.gain.setValueAtTime(volume, t);
+                e.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+                src.connect(hp).connect(e).connect(a.destination);
+                src.start(t);
+                src.stop(t + 0.3);
+            });
+            // dhol thump for "Morya!"
+            const dhol = safe((volume = 0.5) => {
+                const a = ctx(), t = a.currentTime;
+                const o = a.createOscillator(), e = a.createGain();
+                o.frequency.setValueAtTime(120, t);
+                o.frequency.exponentialRampToValueAtTime(48, t + 0.18);
+                e.gain.setValueAtTime(volume, t);
+                e.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+                o.connect(e).connect(a.destination);
+                o.start(t);
+                o.stop(t + 0.4);
+                const src = a.createBufferSource(), lp = a.createBiquadFilter(), n = a.createGain();
+                src.buffer = noise(a);
+                lp.type = 'lowpass';
+                lp.frequency.value = 900;
+                n.gain.setValueAtTime(volume * 0.4, t);
+                n.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+                src.connect(lp).connect(n).connect(a.destination);
+                src.start(t);
+                src.stop(t + 0.1);
+            });
+
+            // ================= petals =================
+            const petalsEl = $('petals');
+            const COLOURS = ['#ff9f1c', '#ffbf40', '#ff7b00', '#ffd166', '#e85d04', '#ffb703', '#c8102e'];
+            function shower(count) {
+                if (reducedMotion) count = Math.min(count, 8);
+                for (let i = 0; i < count; i++) {
+                    const p = document.createElement('span');
+                    p.className = 'petal';
+                    p.style.left = rand(0, 100) + 'vw';
+                    p.style.setProperty('--s', rand(8, 15) + 'px');
+                    p.style.setProperty('--c', COLOURS[i % COLOURS.length]);
+                    p.style.setProperty('--d', rand(3.4, 6.5) + 's');
+                    p.style.setProperty('--x', rand(-18, 18) + 'vw');
+                    p.style.setProperty('--r', rand(-540, 540) + 'deg');
+                    p.style.animationDelay = rand(0, 1.3) + 's';
+                    p.addEventListener('animationend', () => p.remove());
+                    petalsEl.appendChild(p);
+                }
+            }
+            function burst(el, count) {
+                const b = el.getBoundingClientRect();
+                for (let i = 0; i < count; i++) {
+                    const s = document.createElement('span');
+                    const ang = rand(0, Math.PI * 2), dist = rand(50, 120);
+                    s.className = 'spark';
+                    s.style.left = b.left + b.width / 2 + 'px';
+                    s.style.top = b.top + b.height / 2 + 'px';
+                    s.style.setProperty('--x', Math.cos(ang) * dist + 'px');
+                    s.style.setProperty('--y', Math.sin(ang) * dist - 30 + 'px');
+                    s.style.setProperty('--s', rand(7, 11) + 'px');
+                    s.style.setProperty('--c', COLOURS[i % COLOURS.length]);
+                    s.style.setProperty('--r', rand(-360, 360) + 'deg');
+                    s.addEventListener('animationend', () => s.remove());
+                    petalsEl.appendChild(s);
+                }
+            }
+
+            // ================= toran: marigold garland with mango leaves =================
+            (function drawToran() {
+                const svg = $('toran'), NS = 'http://www.w3.org/2000/svg';
+                const el = (tag, attrs) => {
+                    const n = document.createElementNS(NS, tag);
+                    for (const k in attrs) n.setAttribute(k, attrs[k]);
+                    return n;
+                };
+                // two swags hanging from three points
+                for (const [x0, x1] of [[0, 200], [200, 400]]) {
+                    const N = 11;
+                    for (let i = 0; i <= N; i++) {
+                        const t = i / N, x = x0 + (x1 - x0) * t, y = 8 + Math.sin(Math.PI * t) * 26;
+                        if (i % 2 === 1) {
+                            // mango leaf hanging below the string
+                            svg.appendChild(el('path', {
+                                d: `M${x} ${y + 4} q -5 12 0 22 q 5 -10 0 -22 z`,
+                                fill: '#3f8f3a', stroke: '#2a6326', 'stroke-width': 0.8
+                            }));
+                        }
+                        svg.appendChild(el('circle', { cx: x, cy: y, r: 7.5, fill: 'url(#genda)' }));
+                        svg.appendChild(el('circle', { cx: x - 2, cy: y - 2, r: 2.2, fill: 'rgba(255,240,180,0.6)' }));
+                    }
+                }
+            })();
+
+            // ================= seva =================
+            const feedback = $('feedback');
+            const say = (t) => { feedback.textContent = t; };
+            const CORE = ['ghanti', 'phool', 'aarti', 'modak'];
+            const done = new Set();
+            function complete(act) {
+                if (done.has(act)) return;
+                done.add(act);
+                const btn = document.querySelector(`.s-btn[data-act="${act}"]`);
+                btn.classList.add('done');
+                btn.setAttribute('aria-pressed', 'true');
+                if (!CORE.includes(act)) return;
+                const n = CORE.filter((a) => done.has(a)).length;
+                $('progress').textContent = n < 4 ? `${n}/4 seva ho gayi — ${4 - n} aur` : 'Chaaron seva sampann 🙏';
+                if (n === 4) finishDarshan();
+            }
+            function ringBells() {
+                for (const id of ['bellL', 'bellR']) {
+                    const b = $(id);
+                    b.classList.remove('ring');
+                    void b.offsetWidth;
+                    b.classList.add('ring');
+                }
+            }
+
+            // Sukhkarta Dukhharta — Samarth Ramdas (17th century), first stanza and refrain
+            const AARTI = [
+                ['सुखकर्ता दुःखहर्ता वार्ता विघ्नाची ।', 'Sukhkarta dukhharta, varta vighnachi'],
+                ['नुरवी पुरवी प्रेम कृपा जयाची ।', 'Nurvi purvi prem, krupa jayachi'],
+                ['सर्वांगी सुंदर उटी शेंदुराची ।', 'Sarvangi sundar uti shendurachi'],
+                ['कंठी झळके माळ मुक्ताफळांची ॥', 'Kanthi jhalke maal muktaphalanchi'],
+                ['जय देव जय देव जय मंगलमूर्ती ।', 'Jai Dev, Jai Dev, Jai Mangalmurti'],
+                ['दर्शनमात्रे मनकामना पुरती ॥', 'Darshan-matre mann-kaamna purti'],
+                ['जय देव जय देव ॥', 'Jai Dev, Jai Dev']
+            ];
+            // The sung aarti: Rajshri Soul's official "Sukhkarta Dukhharta | Ganesh Aarti with Lyrics" upload,
+            // played in YouTube's own (visible) player — that's how YouTube allows videos to be embedded.
+            const AARTI_VIDEO = 'oZtSja5lg5o';
+            let ytApi;
+            function loadYouTube() {
+                if (ytApi) return ytApi;
+                ytApi = new Promise((resolve, reject) => {
+                    if (window.YT && window.YT.Player) return resolve();
+                    window.onYouTubeIframeAPIReady = resolve;
+                    const s = document.createElement('script');
+                    s.src = 'https://www.youtube.com/iframe_api';
+                    s.onerror = reject;
+                    document.head.appendChild(s);
+                    setTimeout(() => reject(new Error('YouTube did not load')), 12000);
+                }).catch((e) => {
+                    ytApi = null; // allow a retry next time
+                    throw e;
+                });
+                return ytApi;
+            }
+
+            // resolves 'done' when the aarti ends (or the visitor ends it), 'failed' if YouTube can't play
+            function playYouTubeAarti(lyrics) {
+                lyrics.innerHTML =
+                    '<div class="yt-wrap"><div id="ytPlayer"></div></div>' +
+                    '<button type="button" class="aarti-stop" id="aartiStop">Aarti sampann karein 🙏</button>';
+                return loadYouTube().then(
+                    () =>
+                        new Promise((resolve) => {
+                            let player;
+                            const finish = (result) => {
+                                try {
+                                    player.stopVideo();
+                                    player.destroy();
+                                } catch (e) {
+                                    /* already gone */
+                                }
+                                resolve(result);
+                            };
+                            player = new YT.Player('ytPlayer', {
+                                host: 'https://www.youtube-nocookie.com',
+                                videoId: AARTI_VIDEO,
+                                // as little YouTube UI as the embed rules allow: no control bar, no fullscreen, no annotations
+                                playerVars: { autoplay: 1, controls: 0, fs: 0, disablekb: 1, iv_load_policy: 3, rel: 0, playsinline: 1 },
+                                events: {
+                                    onReady: (e) => {
+                                        if (!soundOn) e.target.mute();
+                                        e.target.playVideo();
+                                    },
+                                    onStateChange: (e) => {
+                                        if (e.data === YT.PlayerState.ENDED) finish('done');
+                                    },
+                                    onError: () => finish('failed')
+                                }
+                            });
+                            $('aartiStop').onclick = () => finish('done');
+                        }),
+                    () => 'failed'
+                );
+            }
+
+            // used only if YouTube is blocked or offline: ghanta + jhanjh with the words line by line
+            async function builtInAarti(lyrics) {
+                let beat = 0;
+                const rhythm = setInterval(() => {
+                    beat++;
+                    jhanjh(0.09);
+                    if (beat % 3 === 0) bell(0.14, beat % 6 === 0 ? 660 : 610);
+                }, 380);
+                for (const [dev, rom] of AARTI) {
+                    lyrics.innerHTML = `<div class="line"><p class="dev" lang="mr">${dev}</p><p class="rom">${rom}</p></div>`;
+                    await wait(3300);
+                }
+                clearInterval(rhythm);
+            }
+
+            let aartiRunning = false;
+            async function aarti(btn) {
+                if (aartiRunning) return;
+                aartiRunning = true;
+                btn.disabled = true;
+                const arch = $('arch'), orbit = $('orbit'), lyrics = $('lyrics');
+                arch.classList.add('lit');
+                if (!reducedMotion) orbit.classList.add('on');
+                lyrics.hidden = false;
+                say('Aarti shuru ho rahi hai… 🪔');
+                bell(0.3, 660);
+
+                const result = await playYouTubeAarti(lyrics);
+                if (result === 'failed') {
+                    say('');
+                    await builtInAarti(lyrics);
+                }
+
+                bell(0.35, 660);
+                orbit.classList.remove('on');
+                arch.classList.remove('lit');
+                lyrics.hidden = true;
+                btn.disabled = false;
+                aartiRunning = false;
+                say('Aarti sampann — darshan-matre mann-kaamna purti 🙏');
+                complete('aarti');
+            }
+
+            const actions = {
+                ghanti() {
+                    ringBells();
+                    // a temple ghanta is rung more than once — softly
+                    bell(0.34, 660);
+                    setTimeout(() => bell(0.26, 652), 650);
+                    say('Tan-tan… ghanti baji, Bappa ne sun liya 🔔');
+                    complete('ghanti');
+                },
+                phool() {
+                    shower(55);
+                    say('Genda phool chadh gaye 🌼');
+                    complete('phool');
+                },
+                aarti,
+                modak() {
+                    const bhog = $('bhog');
+                    if (bhog.children.length < 7) bhog.insertAdjacentHTML('beforeend', '<svg class="modak-ico"><use href="#modak" /></svg>');
+                    const lines = ['Modak ka bhog lag gaya — Bappa ka favourite 😋', 'Ek aur modak? Bappa khush 😄', 'Itne modak! Aaj Bappa bahut khush hain 🙏'];
+                    say(lines[Math.min(bhog.children.length - 1, lines.length - 1)]);
+                    complete('modak');
+                },
+                mannat() {
+                    const f = $('mannatForm');
+                    f.hidden = !f.hidden;
+                    if (!f.hidden) $('mannatText').focus();
+                }
+            };
+            document.querySelectorAll('.s-btn').forEach((btn) => {
+                btn.addEventListener('click', () => actions[btn.dataset.act](btn));
+            });
+
+            // mannat: whispered into Mooshak's ear — animated, never sent or stored
+            $('mannatText').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    $('mannatForm').requestSubmit();
+                }
+            });
+            $('mannatForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const input = $('mannatText');
+                const text = input.value.trim();
+                if (!text) return input.focus();
+                const note = document.createElement('span');
+                note.className = 'mannat-note';
+                note.textContent = text.length > 60 ? text.slice(0, 57) + '…' : text;
+                $('arch').appendChild(note);
+                requestAnimationFrame(() => requestAnimationFrame(() => note.classList.add('go')));
+                setTimeout(() => note.remove(), 1800);
+                input.value = '';
+                $('mannatForm').hidden = true;
+                bell(0.15, 880);
+                say('Mooshak ne sun liya — Bappa tak pahuncha dega 🐭🙏');
+                complete('mannat');
+            });
+
+            // ================= shared counters (Salesforce: one record per counter, taps batched) =================
+            const COUNTERS_API = 'https://orgfarm-bfdf191497-dev-ed.develop.my.salesforce-sites.com/chaltehaiapi/services/apexrest/counters';
+            let server = null;
+            let pending = 0;
+            let inFlight = 0;
+            let mine = Number(store('localStorage', 'ch_morya')) || 0;
+            const fmt = (n) => n.toLocaleString('en-IN');
+            function renderCounts() {
+                const el = $('moryaCount');
+                if (server) el.innerHTML = `Ab tak <b>${fmt(server.morya + pending + inFlight)}</b> baar "Morya" bola gaya`;
+                else if (mine) el.innerHTML = `Aapne <b>${fmt(mine)}</b> baar "Morya" bola 🙏`;
+                if (server && server.darshan > 0) {
+                    for (const id of ['darshanStat', 'gateCount', 'darshanLive']) {
+                        $(id).querySelector('b').textContent = fmt(server.darshan);
+                        $(id).hidden = false;
+                    }
+                }
+            }
+            function applyCounts(d) {
+                if (d && typeof d.morya === 'number') server = { morya: d.morya, darshan: d.darshan || 0 };
+                renderCounts();
+            }
+            function loadCounts() {
+                fetch(COUNTERS_API).then((r) => (r.ok ? r.json() : Promise.reject())).then(applyCounts).catch(renderCounts);
+            }
+            function post(key, delta, keepalive) {
+                if (!isLive) return Promise.resolve(null); // local previews only read
+                return fetch(COUNTERS_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                    body: JSON.stringify({ key, delta }),
+                    keepalive: !!keepalive
+                }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+            }
+            function flush(keepalive) {
+                if (!pending || inFlight) return;
+                inFlight = Math.min(pending, 30);
+                pending -= inFlight;
+                post('morya', inFlight, keepalive).then((d) => {
+                    inFlight = 0;
+                    applyCounts(d);
+                });
+            }
+            setInterval(() => flush(false), 2500);
+            window.addEventListener('pagehide', () => flush(true));
+
+            const REPLIES = ['Mangal Murti Morya! 🙏', 'Pudhchya varshi lavkar ya! 🌺', 'Mangal Murti Morya! 🪔'];
+            let r = 0;
+            $('moryaBtn').addEventListener('click', (e) => {
+                mine++;
+                pending++;
+                store('localStorage', 'ch_morya', String(mine));
+                dhol();
+                const reply = $('moryaReply');
+                reply.textContent = REPLIES[r++ % REPLIES.length];
+                reply.classList.remove('pop');
+                void reply.offsetWidth;
+                reply.classList.add('pop');
+                burst(e.currentTarget, 10);
+                renderCounts();
+            });
+
+            // ================= darshan complete =================
+            const todayIST = () => new Date(Date.now() + 5.5 * 3600e3).toISOString().slice(0, 10);
+            function finishDarshan() {
+                setTimeout(() => {
+                    shower(80);
+                    ringBells();
+                    bell(0.3, 700);
+                    $('done').hidden = false;
+                    $('done').scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
+                    $('prasadBtn').focus({ preventScroll: true });
+                }, 600);
+                if (store('localStorage', 'ch_darshan_day') !== todayIST()) {
+                    store('localStorage', 'ch_darshan_day', todayIST());
+                    post('darshan', 1).then(applyCounts);
+                }
+            }
+            $('prasadBtn').addEventListener('click', () => {
+                $('prasad').hidden = false;
+                $('prasadBtn').hidden = true;
+                bell(0.2, 880);
+            });
+            $('shareBtn').href =
+                // api.whatsapp.com keeps emoji intact; the wa.me redirect turns them into � on WhatsApp Desktop/Web
+                'https://api.whatsapp.com/send?text=' +
+                encodeURIComponent('Ganpati Bappa Morya!\nMaine Bappa ke darshan kiye - ghanti, phool, aarti aur modak bhog ke saath. Aap bhi kijiye:\nhttps://chaltehai.online');
+
+            loadCounts();
+
+            // ================= the darshan begins =================
+            $('startBtn').addEventListener('click', async () => {
+                shankh();
+                const gate = $('gate');
+                gate.classList.add('leaving');
+                await wait(reducedMotion ? 0 : 650);
+                gate.hidden = true;
+                $('temple').hidden = false;
+                window.scrollTo(0, 0);
+                loadCounts();
+                loadYouTube().catch(() => {}); // warm up the aarti player
+                await wait(reducedMotion ? 0 : 700);
+                $('arch').classList.add('open');
+                ringBells();
+                bell(0.3, 660);
+                await wait(reducedMotion ? 0 : 1500);
+                shower(40);
+                say('Ganpati Bappa ke darshan kijiye 🙏');
+                document.querySelector('.s-btn').focus({ preventScroll: true });
+            });
+
+            // ================= visitor counter (Salesforce: Site_Visit__c) =================
+            (function () {
+                const VISITS_API = 'https://orgfarm-bfdf191497-dev-ed.develop.my.salesforce-sites.com/chaltehaiapi/services/apexrest/visits';
+                if (!isLive || store('sessionStorage', 'ch_visit')) return;
                 const isUnique = !store('localStorage', 'ch_seen');
-
-                const req = shouldCount
-                    ? fetch(VISITS_API, {
-                          method: 'POST',
-                          // text/plain keeps this a "simple" request: no CORS preflight
-                          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-                          body: JSON.stringify({ unique: isUnique }),
-                          keepalive: true
-                      })
-                    : fetch(VISITS_API);
-
-                req.then((r) => (r.ok ? r.json() : Promise.reject()))
-                    .then((d) => {
-                        if (shouldCount) {
-                            store('sessionStorage', 'ch_visit', '1');
-                            store('localStorage', 'ch_seen', '1');
-                        }
-                        if (d.unique >= MIN_TO_SHOW) {
-                            $('visitorCount').textContent = d.unique.toLocaleString('en-IN');
-                            $('visitors').hidden = false;
-                        }
+                fetch(VISITS_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                    body: JSON.stringify({ unique: isUnique }),
+                    keepalive: true
+                })
+                    .then((res) => {
+                        if (!res.ok) return;
+                        store('sessionStorage', 'ch_visit', '1');
+                        store('localStorage', 'ch_seen', '1');
                     })
                     .catch(() => {});
             })();
 
-            // ---- a note for anyone who opens DevTools ----
+            // ================= browser tab =================
+            (function () {
+                const fav = $('favicon');
+                const HOME = [document.title, fav.href];
+                const icon = (e) =>
+                    'data:image/svg+xml,' +
+                    encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><text x="50%" y="54%" font-size="52" text-anchor="middle" dominant-baseline="middle">${e}</text></svg>`);
+                const AWAY = [
+                    ['🙏', 'Bappa aapka intezaar kar rahe hain'],
+                    ['🪔', 'Aarti abhi baaki hai…'],
+                    ['🥟', 'Prasad le ke jaana!']
+                ];
+                let t1, t2;
+                const set = (title, href) => { document.title = title; fav.href = href; };
+                document.addEventListener('visibilitychange', () => {
+                    clearInterval(t1);
+                    clearTimeout(t2);
+                    if (document.hidden) {
+                        let i = 0;
+                        const show = () => { const [e, t] = AWAY[i++ % AWAY.length]; set(t, icon(e)); };
+                        show();
+                        t1 = setInterval(show, 3000);
+                    } else {
+                        set('Ganpati Bappa Morya! 🙏', icon('🙏'));
+                        t2 = setTimeout(() => set(...HOME), 2000);
+                    }
+                });
+            })();
+
             console.log(
-                '%cChalte Hai%c\nDevTools khol liya? Tum sach mein curious ho. 👀\nSoch, design & code — Vaibhav Sharma',
-                'font: italic 700 28px Georgia, serif; color: #ff914d;',
+                '%cGanpati Bappa Morya! 🙏%c\nSoch, design & code — Vaibhav Sharma',
+                'font: italic 700 24px Georgia, serif; color: #ff914d;',
                 'font: 13px ui-monospace, monospace; color: #ffc857; line-height: 1.6;'
             );
-
-            // ---- browser tab: title & icon react when the visitor leaves and comes back ----
-            const faviconEl = $('favicon');
-            const HOME_TITLE = document.title;
-            const HOME_ICON = faviconEl.href;
-            const emojiIcon = (emoji) =>
-                'data:image/svg+xml,' +
-                encodeURIComponent(
-                    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><text x="50%" y="54%" font-size="52" text-anchor="middle" dominant-baseline="middle">${emoji}</text></svg>`
-                );
-            const AWAY = [
-                ['👀', 'Arre, wapas aao…'],
-                ['☕', 'Chai thandi ho rahi hai'],
-                ['🤫', 'Ek secret miss ho raha hai'],
-                ['🧭', 'Raasta yahin hai, udhar nahi']
-            ];
-            let awayTimer;
-            let backTimer;
-            const setTab = (title, icon) => {
-                document.title = title;
-                faviconEl.href = icon;
-            };
-            document.addEventListener('visibilitychange', () => {
-                clearInterval(awayTimer);
-                clearTimeout(backTimer);
-                if (document.hidden) {
-                    let i = 0;
-                    const show = () => {
-                        const [emoji, text] = AWAY[i++ % AWAY.length];
-                        setTab(text, emojiIcon(emoji));
-                    };
-                    show();
-                    awayTimer = setInterval(show, 3000);
-                } else {
-                    setTab('Pata tha, wapas aaoge 😏', emojiIcon('😏'));
-                    backTimer = setTimeout(() => setTab(HOME_TITLE, HOME_ICON), 2000);
-                }
-            });
-
-            // ---- constellation canvas ----
-            const canvas = $('sky');
-            const ctx = canvas.getContext('2d');
-            let w = 0, h = 0, pts = [];
-            const pointer = { x: -9999, y: -9999 };
-
-            function resize() {
-                const dpr = Math.min(window.devicePixelRatio || 1, 2);
-                w = canvas.clientWidth;
-                h = canvas.clientHeight;
-                canvas.width = w * dpr;
-                canvas.height = h * dpr;
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                const count = Math.round(Math.min(120, (w * h) / 11000));
-                pts = Array.from({ length: count }, () => ({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    vx: (Math.random() - 0.5) * 0.25,
-                    vy: (Math.random() - 0.5) * 0.25,
-                    r: Math.random() * 1.4 + 0.3,
-                    tw: Math.random() * Math.PI * 2
-                }));
-            }
-
-            const stage = $('stage');
-            const track = (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const p = e.touches ? e.touches[0] : e;
-                pointer.x = p.clientX - rect.left;
-                pointer.y = p.clientY - rect.top;
-            };
-            stage.addEventListener('mousemove', track);
-            stage.addEventListener('touchmove', track, { passive: true });
-            window.addEventListener('resize', resize);
-
-            function draw() {
-                ctx.clearRect(0, 0, w, h);
-                for (const p of pts) {
-                    if (!reducedMotion) {
-                        p.x += p.vx;
-                        p.y += p.vy;
-                        p.tw += 0.02;
-                    }
-                    if (p.x < 0) p.x = w;
-                    if (p.x > w) p.x = 0;
-                    if (p.y < 0) p.y = h;
-                    if (p.y > h) p.y = 0;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255, 236, 210, ${0.35 + Math.sin(p.tw) * 0.25})`;
-                    ctx.fill();
-                }
-                // stars near the cursor join into a constellation — a map drawing itself
-                const near = pts.filter((p) => Math.hypot(p.x - pointer.x, p.y - pointer.y) < 170);
-                for (let i = 0; i < near.length; i++) {
-                    for (let j = i + 1; j < near.length; j++) {
-                        const d = Math.hypot(near[i].x - near[j].x, near[i].y - near[j].y);
-                        if (d < 120) {
-                            ctx.strokeStyle = `rgba(255, 145, 77, ${0.5 * (1 - d / 120)})`;
-                            ctx.lineWidth = 0.8;
-                            ctx.beginPath();
-                            ctx.moveTo(near[i].x, near[i].y);
-                            ctx.lineTo(near[j].x, near[j].y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-                requestAnimationFrame(draw);
-            }
-            resize();
-            requestAnimationFrame(draw);
         })();
     </script>
 </body>
