@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Ganpati Darshan 🌺 Chalte Hai</title>
+    <title>Chalo, chalte hai! Ganpati Bappa ke darshan 🌺</title>
     <meta name="description" content="Ghar baithe Bappa ke darshan — ghanti, phool, aarti aur modak bhog. Ganpati Bappa Morya! 🙏" />
     <meta name="theme-color" content="#1c0608" />
     <meta name="author" content="Vaibhav Sharma" />
@@ -11,7 +11,7 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://chaltehai.online/" />
-    <meta property="og:title" content="Bappa ke darshan 🌺 — Ganpati Bappa Morya!" />
+    <meta property="og:title" content="Chalo, chalte hai! Ganpati Bappa ke darshan ko 🌺" />
     <meta property="og:description" content="Ghanti, phool, aarti aur modak bhog — ghar baithe Bappa ke darshan karo." />
     <meta property="og:image" content="https://chaltehai.online/og-ganpati.jpg" />
     <meta property="og:image:width" content="1200" />
@@ -100,6 +100,12 @@
             background: linear-gradient(180deg, #fff6dc, var(--marigold) 60%, var(--saffron));
             -webkit-background-clip: text; background-clip: text; color: transparent;
             animation: rise 1s 0.15s both;
+        }
+        .gate-kicker {
+            margin: 0 0 1rem;
+            font-family: var(--serif); font-style: italic; font-size: clamp(1.25rem, 3.6vw, 1.7rem);
+            color: var(--paper);
+            animation: rise 1s 0.25s both;
         }
         .gate-sub { margin: 0 0 2rem; max-width: 26rem; color: var(--muted); line-height: 1.6; animation: rise 1s 0.3s both; }
         .gate-door {
@@ -544,7 +550,8 @@
         <!-- 1. The gate: a moment of stillness before darshan (and the tap that lets the browser play sound) -->
         <section class="gate" id="gate">
             <p class="mantra" lang="sa">॥ श्री गणेशाय नमः ॥</p>
-            <h1>Bappa ke darshan</h1>
+            <h1>Chalo, chalte hai!</h1>
+            <p class="gate-kicker">Ganpati Bappa ke darshan ko 🌺</p>
             <p class="gate-sub">Har shubh shuruaat Ganesh Ji se. Aaj line bhi nahi hai — seedha darshan 😄</p>
             <div class="gate-door" aria-hidden="true"><span>ॐ</span></div>
             <button class="start" id="startBtn" type="button"><span class="start-ico" aria-hidden="true">🙏</span>Darshan karein</button>
@@ -1035,7 +1042,9 @@
 
             // ================= shared counters (Salesforce: one record per counter, taps batched) =================
             const COUNTERS_API = 'https://orgfarm-bfdf191497-dev-ed.develop.my.salesforce-sites.com/chaltehaiapi/services/apexrest/counters';
+            const VISITS_API = 'https://orgfarm-bfdf191497-dev-ed.develop.my.salesforce-sites.com/chaltehaiapi/services/apexrest/visits';
             let server = null;
+            let bhakt = 0; // total unique visitors (Site_Visit__c.Unique_Visitors__c) = "bhakt"
             let pending = 0;
             let inFlight = 0;
             let mine = Number(store('localStorage', 'ch_morya')) || 0;
@@ -1044,19 +1053,43 @@
                 const el = $('moryaCount');
                 if (server) el.innerHTML = `Ab tak <b>${fmt(server.morya + pending + inFlight)}</b> baar "Morya" bola gaya`;
                 else if (mine) el.innerHTML = `Aapne <b>${fmt(mine)}</b> baar "Morya" bola 🙏`;
-                if (server && server.darshan > 0) {
+                if (bhakt > 0) {
                     for (const id of ['darshanStat', 'gateCount', 'darshanLive']) {
-                        $(id).querySelector('b').textContent = fmt(server.darshan);
+                        $(id).querySelector('b').textContent = fmt(bhakt);
                         $(id).hidden = false;
                     }
                 }
             }
             function applyCounts(d) {
-                if (d && typeof d.morya === 'number') server = { morya: d.morya, darshan: d.darshan || 0 };
+                if (d && typeof d.morya === 'number') server = { morya: d.morya };
                 renderCounts();
             }
+            const applyVisits = (d) => {
+                if (d && typeof d.unique === 'number') bhakt = d.unique;
+                renderCounts();
+            };
             function loadCounts() {
                 fetch(COUNTERS_API).then((r) => (r.ok ? r.json() : Promise.reject())).then(applyCounts).catch(renderCounts);
+                fetch(VISITS_API).then((r) => (r.ok ? r.json() : Promise.reject())).then(applyVisits).catch(() => {});
+            }
+            // a visit is recorded when someone taps "Darshan karein": once per browser session,
+            // and as a unique visitor the first time ever from that browser
+            function recordDarshanVisit() {
+                if (!isLive || store('sessionStorage', 'ch_visit')) return;
+                const isUnique = !store('localStorage', 'ch_seen');
+                fetch(VISITS_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                    body: JSON.stringify({ unique: isUnique }),
+                    keepalive: true
+                })
+                    .then((res) => (res.ok ? res.json() : Promise.reject()))
+                    .then((d) => {
+                        store('sessionStorage', 'ch_visit', '1');
+                        store('localStorage', 'ch_seen', '1');
+                        applyVisits(d);
+                    })
+                    .catch(() => {});
             }
             function post(key, delta, keepalive) {
                 if (!isLive) return Promise.resolve(null); // local previews only read
@@ -1114,18 +1147,14 @@
             $('shareBtn').href =
                 // api.whatsapp.com keeps emoji intact; the wa.me redirect turns them into � on WhatsApp Desktop/Web
                 'https://api.whatsapp.com/send?text=' +
-                encodeURIComponent('Ganpati Bappa Morya!\nMaine Bappa ke darshan kiye - ghanti, phool, aarti aur modak bhog ke saath. Aap bhi kijiye:\nhttps://chaltehai.online');
+                encodeURIComponent('Ganpati Bappa Morya!\nMaine Bappa ke darshan kiye - ghanti, phool, aarti aur modak bhog ke saath.\nChalo, chalte hai Bappa ke darshan ko:\nhttps://chaltehai.online');
 
             loadCounts();
 
             // ================= the darshan begins =================
             $('startBtn').addEventListener('click', async () => {
                 shankh();
-                // a darshan = a unique visitor tapping "Darshan karein" (counted once per browser)
-                if (!store('localStorage', 'ch_darshan_counted')) {
-                    store('localStorage', 'ch_darshan_counted', '1');
-                    post('darshan', 1).then(applyCounts);
-                }
+                recordDarshanVisit();
                 const gate = $('gate');
                 gate.classList.add('leaving');
                 await wait(reducedMotion ? 0 : 650);
@@ -1144,24 +1173,6 @@
                 document.querySelector('.s-btn').focus({ preventScroll: true });
             });
 
-            // ================= visitor counter (Salesforce: Site_Visit__c) =================
-            (function () {
-                const VISITS_API = 'https://orgfarm-bfdf191497-dev-ed.develop.my.salesforce-sites.com/chaltehaiapi/services/apexrest/visits';
-                if (!isLive || store('sessionStorage', 'ch_visit')) return;
-                const isUnique = !store('localStorage', 'ch_seen');
-                fetch(VISITS_API, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-                    body: JSON.stringify({ unique: isUnique }),
-                    keepalive: true
-                })
-                    .then((res) => {
-                        if (!res.ok) return;
-                        store('sessionStorage', 'ch_visit', '1');
-                        store('localStorage', 'ch_seen', '1');
-                    })
-                    .catch(() => {});
-            })();
 
             // ================= browser tab =================
             (function () {
